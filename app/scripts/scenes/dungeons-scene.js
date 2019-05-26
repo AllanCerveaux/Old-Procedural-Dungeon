@@ -65,7 +65,7 @@ export default class DungeonScene extends Phaser.Scene {
 
     const mappedTiles = dungeon.getMappedTiles({empty: -1, floor: 6, door: 100, wall: 17});
     layer.putTilesAt(mappedTiles, 0, 0);
-    layer.setCollision(20);
+    layer.setCollision(17);
 
     this.player = new Player(this, map.widthInPixels / 2, map.heightInPixels / 2);
     this.physics.add.collider(this.player.sprite, layer);
