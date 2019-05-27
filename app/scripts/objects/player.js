@@ -27,9 +27,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
       repeat: -1
     });
 
+
     this.sprite = scene.physics.add
       .sprite(x,y,'knight-idle', 0)
-      .setSize(16, 20);
+      .setSize(14, 15);
 
     this.sprite.anims.play('player-idle');
 
