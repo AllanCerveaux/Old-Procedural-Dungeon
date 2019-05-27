@@ -71,6 +71,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.physics.add.collider(this.player.sprite, layer);
 
     const camera = this.cameras.main;
+    camera.setZoom(2.5);
     camera.startFollow(this.player.sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
