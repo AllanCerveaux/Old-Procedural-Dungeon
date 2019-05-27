@@ -32,8 +32,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
       .sprite(x,y,'knight-idle', 0)
       .setSize(12, 15);
 
-    this.sprite.body.offset.y = 5
-    this.sprite.body.offset.x = 3
+    this.sprite.body.offset.y = 5;
+    this.sprite.body.offset.x = 3;
 
     this.sprite.anims.play('player-idle');
 
