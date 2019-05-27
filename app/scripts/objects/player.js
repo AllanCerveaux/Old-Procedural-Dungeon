@@ -30,7 +30,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     this.sprite = scene.physics.add
       .sprite(x,y,'knight-idle', 0)
-      .setSize(14, 15);
+      .setSize(12, 15);
+
+    this.sprite.body.offset.y = 5
+    this.sprite.body.offset.x = 3
 
     this.sprite.anims.play('player-idle');
 
@@ -52,9 +55,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if(keys.left.isDown){
       sprite.body.setVelocityX(-speed);
       sprite.setFlip(true);
+      this.sprite.body.offset.x = 5;
     }else if (keys.right.isDown){
       sprite.body.setVelocityX(speed);
       sprite.setFlip(false);
+      this.sprite.body.offset.x = 4;
+
     }
 
     if(keys.up.isDown){
