@@ -1,5 +1,5 @@
 const TILES_MAPPING = {
-  BLANK: 20,
+  BLANK: 0,
   WALL: {
     TOP_LEFT: 261,
     TOP_RIGHT: 260,
