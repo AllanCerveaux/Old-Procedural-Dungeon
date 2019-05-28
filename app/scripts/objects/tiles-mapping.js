@@ -16,6 +16,7 @@ const TILES_MAPPING = {
   CHEST:431,
   SKULL: 462,
   PIKE: 353,
+  STAIRS: 357
 };
 
 export default TILES_MAPPING;
