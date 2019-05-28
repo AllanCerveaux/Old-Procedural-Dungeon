@@ -1,6 +1,7 @@
 import Dungeon from '@mikewesthad/dungeon';
 import Player from '../objects/player';
 import TILES from '../objects/tiles-mapping';
+import TilemapVisibility from '../objects/tilemap-visibility'
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -49,6 +50,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.dungeon = new Dungeon({
       width: 50,
       height: 50,
+      doorPadding: 2,
       rooms: {
         width: {min: 7, max: 15, onlyOdd: true},
         height: {min: 7, max: 15, onlyOdd: true},
@@ -62,17 +64,19 @@ export default class DungeonScene extends Phaser.Scene {
       width: this.dungeon.width,
       height: this.dungeon.height
     });
-    const tileset = map.addTilesetImage('tiles', null, 16, 16, 0, 0);
-    this.groundLayer = map.createBlankDynamicLayer('Ground', tileset);
-    this.objectLayer = map.createBlankDynamicLayer('Object', tileset);
 
-    this.groundLayer.fill(TILES.BLANK);
+    const tileset = map.addTilesetImage('tiles', null, 16, 16, 0, 0);
+    this.groundLayer = map.createBlankDynamicLayer('Ground', tileset).fill(TILES.BLANK);
+    this.objectLayer = map.createBlankDynamicLayer('Object', tileset);
+    const shadowLayer = map.createBlankDynamicLayer('Shadow', tileset).fill(TILES.BLANK);
+
+    this.tilemapVisibility = new TilemapVisibility(shadowLayer);
+
 
     this.dungeon.rooms.forEach(room => {
       const { x, y, width, height, left, right, top, bottom } = room;
 
       this.groundLayer.weightedRandomize(x+1, y+1, width-2, height-2, TILES.FLOOR);
-      this.groundLayer.putTilesAt(TILES.DOOR, x, y);
 
 
       this.groundLayer.weightedRandomize(left + 1, top, width - 2, 1, TILES.WALL.TOP);
@@ -124,13 +128,16 @@ export default class DungeonScene extends Phaser.Scene {
     this.groundLayer.setCollisionByExclusion([129, 130, 131, 161, 162, 163, 194]);
     this.objectLayer.setCollision([430, 431, 462]);
 
-    this.player = new Player(this, map.widthInPixels / 2, map.heightInPixels / 2);
+    const playerRoom = startRoom;
+    const x = map.tileToWorldX(playerRoom.centerX);
+    const y = map.tileToWorldY(playerRoom.centerY);
+    this.player = new Player(this, x, y);
 
     this.physics.add.collider(this.player.sprite, this.groundLayer);
     this.physics.add.collider(this.player.sprite, this.objectLayer);
 
     const camera = this.cameras.main;
-    //camera.setZoom(2.5);
+    camera.setZoom(2.5);
     camera.startFollow(this.player.sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
@@ -153,6 +160,14 @@ export default class DungeonScene extends Phaser.Scene {
    */
   update(/* t, dt */) {
     this.player.update();
+
+
+    const playerTileX = this.groundLayer.worldToTileX(this.player.sprite.x);
+    const playerTileY = this.groundLayer.worldToTileY(this.player.sprite.y);
+    const playerRoom = this.dungeon.getRoomAt(playerTileX, playerTileY);
+
+
+    this.tilemapVisibility.setActiveRoom(playerRoom);
   }
 
   /**
