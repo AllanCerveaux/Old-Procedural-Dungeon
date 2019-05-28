@@ -1,7 +1,7 @@
 import Dungeon from '@mikewesthad/dungeon';
 import Player from '../objects/player';
 import TILES from '../objects/tiles-mapping';
-import TilemapVisibility from '../objects/tilemap-visibility'
+import TilemapVisibility from '../objects/tilemap-visibility';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
