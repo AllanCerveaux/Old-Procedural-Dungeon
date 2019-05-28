@@ -64,10 +64,9 @@ export default class DungeonScene extends Phaser.Scene {
     });
     const tileset = map.addTilesetImage('tiles', null, 16, 16, 0, 0);
     this.groundLayer = map.createBlankDynamicLayer('Ground', tileset);
-    this.wallLayer = map.createBlankDynamicLayer('WALL', tileset);
     this.objectLayer = map.createBlankDynamicLayer('Object', tileset);
 
-    // this.groundLayer.fill(TILES.BLANK);
+    this.groundLayer.fill(TILES.BLANK);
 
     this.dungeon.rooms.forEach(room => {
       const { x, y, width, height, left, right, top, bottom } = room;
@@ -95,14 +94,43 @@ export default class DungeonScene extends Phaser.Scene {
       }
     });
 
+    const rooms = this.dungeon.rooms.slice();
+    const startRoom = rooms.shift();
+    const endRoom = Phaser.Utils.Array.RemoveRandomElement(rooms);
+    const otherRooms = Phaser.Utils.Array.Shuffle(rooms).slice(0, rooms.length * 0.9);
+
+    this.objectLayer.putTileAt(TILES.STAIRS, endRoom.centerX, endRoom.centerY);
+
+    otherRooms.forEach(room => {
+      let rand = Math.random();
+      if(rand <= 0.25) {
+        this.objectLayer.putTileAt(TILES.CHEST, room.centerX, room.centerY);
+      }else if (rand <= 0.5) {
+        const x = Phaser.Math.Between(room.left + 2, room.right - 2);
+        const y = Phaser.Math.Between(room.top + 2, room.bottom - 2);
+        this.objectLayer.weightedRandomize(x, y, 1, 1, TILES.SKULL);
+      }else {
+        if (room.height >= 5) {
+          this.objectLayer.putTileAt(TILES.SKULL, room.centerX - Math.floor(Math.random() * (3 - 1) + 1), room.centerY + Math.floor(Math.random() * (3 - 1) + 1));
+          this.objectLayer.putTilesAt(TILES.BOX, room.centerX - Math.floor(Math.random() * (3 - 1) + 1), room.centerY + Math.floor(Math.random() * (3 - 1) + 1));
+          this.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (3 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+        } else {
+          this.objectLayer.putTilesAt(TILES.BOX, room.centerX - Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+          this.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+        }
+      }
+    });
+
     this.groundLayer.setCollisionByExclusion([129, 130, 131, 161, 162, 163, 194]);
+    this.objectLayer.setCollision([430, 431, 462]);
 
     this.player = new Player(this, map.widthInPixels / 2, map.heightInPixels / 2);
-    // this.physics.add.collider(this.player.sprite, layer);
+
     this.physics.add.collider(this.player.sprite, this.groundLayer);
+    this.physics.add.collider(this.player.sprite, this.objectLayer);
 
     const camera = this.cameras.main;
-    // camera.setZoom(2.5);
+    //camera.setZoom(2.5);
     camera.startFollow(this.player.sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
