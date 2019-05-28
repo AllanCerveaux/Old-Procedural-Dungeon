@@ -2,6 +2,7 @@
 *.log
 Thumbs.db
 
+CNAME
 dist/
 build/
 node_modules/
