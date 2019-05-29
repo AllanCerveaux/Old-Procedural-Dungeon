@@ -11,6 +11,8 @@ export default class DungeonScene extends Phaser.Scene {
    */
   constructor() {
     super({key: 'DungeonScene'});
+
+    this.level = 0;
   }
 
   /**
@@ -47,6 +49,9 @@ export default class DungeonScene extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    this.level++;
+    this.hasPlayerReachedStairs = false;
+
     this.dungeon = new Dungeon({
       width: 50,
       height: 50,
@@ -133,22 +138,35 @@ export default class DungeonScene extends Phaser.Scene {
     const y = map.tileToWorldY(playerRoom.centerY);
     this.player = new Player(this, x, y);
 
+    this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
+      this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
+      this.hasPlayerReachedStairs = true;
+      this.player.freeze();
+      const cam = this.cameras.main;
+      cam.fade(250, 0, 0, 0);
+      cam.once('camerafadeoutcomplete', () => {
+        this.player.destroy();
+        this.scene.restart();
+      });
+    });
+
     this.physics.add.collider(this.player.sprite, this.groundLayer);
     this.physics.add.collider(this.player.sprite, this.objectLayer);
 
     const camera = this.cameras.main;
-    camera.setZoom(2.5);
+    camera.setZoom(2);
     camera.startFollow(this.player.sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
     this.add
-      .text(16, 16, 'Arrow keys to move', {
-        font: '18px monospace',
+      .text(map.widthInPixels / 2 - 190, 160, `Find the stairs. Go deeper.\nCurrent level: ${this.level}`, {
+        font: '8px monospace',
         fill: '#000000',
-        padding: { x: 20, y: 10 },
+        padding: { x: 10, y: 10 },
         backgroundColor: '#ffffff'
       })
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(1);
   }
 
   /**
@@ -158,7 +176,9 @@ export default class DungeonScene extends Phaser.Scene {
    *  @param {number} t - Current internal clock time.
    *  @param {number} dt - Time elapsed since last update.
    */
-  update(/* t, dt */) {
+  update(/* t, dt */){
+    if (this.hasPlayerReachedStairs) return;
+
     this.player.update();
 
 
