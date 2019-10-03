@@ -32,4 +32,6 @@ Phaser 3 and `generator-phaser-plus`.
 
 ## Contributor
 
+THOMAS : je contribue à t'aider allan ;)
+
 > add your github profile if you contributing `[name](link-to-github-profile)`
