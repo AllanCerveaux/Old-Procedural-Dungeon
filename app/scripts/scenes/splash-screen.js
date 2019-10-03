@@ -35,6 +35,16 @@ export default class SplashScreen extends Phaser.Scene {
 
     //  HINT: Declare all game assets to be loaded here.
     this.load.image('logo');
+    this.load.image('tiles', 'tilesets/_DungeonTilesets.png');
+    this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
+      frameWidth: 20,
+      frameHeight: 20,
+    });
+    this.load.spritesheet('knight-run', 'spritesheets/knight/knight_run.png', {
+      frameWidth: 20,
+      frameHeight: 20,
+    });
+
   }
 
   /**
