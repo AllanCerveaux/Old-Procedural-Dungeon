@@ -33,3 +33,4 @@ Phaser 3 and `generator-phaser-plus`.
 ## Contributor
 
 > add your github profile if you contributing `[name](link-to-github-profile)`
+> [Nicole Brooks](https://github.com/N-Brooks)
