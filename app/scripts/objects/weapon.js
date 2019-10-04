@@ -8,59 +8,61 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
      *  @class Weapon
      *  @extends Phaser.GameObjects.Sprite
      *  @param {Phaser.Scene} scene - The scene that owns this sprite.
-     *  @param {number} x - The horizontal coordinate relative to the scene viewport.
-     *  @param {number} y - The vertical coordinate relative to the scene viewport.
+     *  @param {object} weaponInfo - JSON object with details of the weapon to be created.
+     *      weaponInfo.animKey = animation key.
+     *      weaponInfo.spriteStr = sprite reference.
      */
-    constructor(scene, x, y) {
-      super(scene, x, y, 'weapon');
+
+    //If you would like the player to hold the weapon, follow this with weapon.pickupWeapon.
+    //If the weapon is being left in the overworld, follow this with weapon.dropWeapon.
+    constructor(scene, weaponInfo) {
+      super(scene, 'weapon');
+      this.animKey = weaponInfo.animStr;
+      this.spriteKey = weaponInfo.spriteStr;
       this.scene = scene;
       const anims = scene.anims;
       anims.create({
-        key: 'sword-basic-anim',
-        frames: anims.generateFrameNumbers('sword-basic', {start: 0, end: 10}),
+        key: this.animKey,
+        frames: anims.generateFrameNumbers(this.spriteKey, {start: 0, end: 10}),
         frameRate: 4,
         repeat: -1
       });
-  
-      this.sprite = scene.add
-        .sprite(x, y,'sword-basic', 0)
-        .setSize(10, 23);
-  
-      this.sprite.anims.play('sword-basic-anim');
       
-      this.keys = scene.input.keyboard.createCursorKeys();
+    }
+
+    /* Places a sprite on the ground at the specified x and y values.
+    *  @param scene - scene this is happening on.
+    *  @param x, y - x and y values of placement.
+    *  NOTE: 
+    */
+    dropWeapon(scene, x, y) {
+      this.sprite = scene.add
+        .sprite(x, y, this.spriteKey, 0);
+  
+      this.sprite.anims.play(this.animKey);
     }
 
     /* Picks up a weapon from the ground.
-   * @param weapon - weapon being picked up.
-   * @param oldWeapon - weapon currently held.
-   */
-    pickupWeapon(weapon, oldWeapon, player) {
-      weapon.destroy();
-      const newWeapon = this.scene.add
-        .sprite(0, 0,'sword-basic', 0)
-        .setSize(16, 23);
-      newWeapon.setScale(0.7);
-      newWeapon.x = -7;
-      newWeapon.y = 0;
-      this.scene.physics.world.enable(newWeapon);
-      newWeapon.anims.play('sword-basic-anim', false, player.sprite.anims.currentFrame.index);
-      player.setActiveWeapon(newWeapon);
-      player.playerBox.add(newWeapon);
-      if (oldWeapon)
-        oldWeapon.destroy();
+    *  @param player - player object
+    *  NOTE: The scale, x, and y values here are hardcoded for sword_basic at the moment.
+    *        If you plan to add another weapon, please look for a way to generalize those values.
+    */
+    pickupWeapon(player) {
+      if (player.getActiveWeapon())
+        player.getActiveWeapon.destroy();
+      this.scene.physics.world.enable(this);
+      player.setActiveWeapon(this);
+      this.sprite = this.scene.add
+        .sprite(0, 0, this.spriteKey, 0)
+        .setScale(0.7);
+      this.sprite.x = -7;
+      this.sprite.y = 0;
+      player.playerBox.add(this.sprite);
+      this.sprite.anims.play(this.animKey, false, player.sprite.anims.currentFrame.index);
+      
     }
   
     update() {
-      const keys = this.keys;
-      const sprite = this.sprite;
-
-      if(keys.space.isDown){
-        console.log("ATTACK!!!!")
-      } else {
-        //sprite.anims.play('weapon-idle', true);
-      }
-  
     }
   
     destroy() {

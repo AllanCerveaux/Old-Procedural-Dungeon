@@ -1,6 +1,7 @@
 import Dungeon from '@mikewesthad/dungeon';
 import Player from '../objects/player';
 import Weapon from '../objects/weapon';
+import Sword_Basic from '../objects/weapons/sword-basic';
 import TILES from '../objects/tiles-mapping';
 import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
@@ -46,7 +47,6 @@ export default class DungeonScene extends Phaser.Scene {
       frameWidth: 19,
       frameHeight: 20,
     });
-
   }
 
   /**
@@ -99,8 +99,11 @@ export default class DungeonScene extends Phaser.Scene {
     const y = map.tileToWorldY(playerRoom.centerY);
     this.player = new Player(this, x, y);
 
-    this.weapon = new Weapon(this, x, y);
-    this.weapon.pickupWeapon(this.weapon, this.player.getActiveWeapon(), this.player);
+    this.weapon = new Sword_Basic(this);
+    this.weapon.pickupWeapon(this.player);
+
+    //this.x = new Sword_Basic(this);
+    //this.x.dropWeapon(this, x, y);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);

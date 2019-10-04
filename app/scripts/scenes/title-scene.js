@@ -111,7 +111,6 @@ export default class TitleScene extends Phaser.Scene {
     }
     
     if (this.bgMap.y > config.height && this.panVelocityY > 0) {
-      console.log(this.bgMap.y, config.height);
       this.panVelocityY *= -1;
     }
     else if (this.bgMap.y < 0 && this.panVelocityY < 0) {
