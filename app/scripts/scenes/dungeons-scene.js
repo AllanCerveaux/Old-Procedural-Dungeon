@@ -52,7 +52,7 @@ export default class DungeonScene extends Phaser.Scene {
   create(/* data */) {
     this.level++;
     this.hasPlayerReachedStairs = false;
-
+    
     this.dungeon = new Dungeon({
       width: 50,
       height: 50,
@@ -71,6 +71,24 @@ export default class DungeonScene extends Phaser.Scene {
       height: this.dungeon.height
     });
 
+    if (this.level == 1){
+      this.music = this.sound.add('musicCalm',{volume:0.15,loop:true});
+      this.music.play();
+    }
+    else if(this.level > 1 && this.level <3){
+      this.music.stop();
+      console.log("level 2");
+      this.music = this.sound.add('musicIntense',{volume:0.15,loop:true});
+      this.music.play();
+    }
+    else if(this.level >= 3){
+      this.music.stop();
+      console.log("level 3");
+      this.music = this.sound.add('musicYouDied', {volume:0.15,loop:true});
+      this.music.play();
+    }
+    
+    
     const tileset = map.addTilesetImage('tiles', null, 16, 16, 0, 0);
     this.groundLayer = map.createBlankDynamicLayer('Ground', tileset).fill(TILES.BLANK);
     this.objectLayer = map.createBlankDynamicLayer('Object', tileset);
@@ -123,6 +141,7 @@ export default class DungeonScene extends Phaser.Scene {
       })
       .setScrollFactor(0)
       .setDepth(1);
+
   }
 
   /**
