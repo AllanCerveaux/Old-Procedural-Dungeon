@@ -34,20 +34,7 @@ export default class DungeonScene extends Phaser.Scene {
    *  @protected
    */
   preload() {
-    this.load.image('tiles', 'tilesets/_DungeonTilesets.png');
-    this.load.spritesheet('sword-basic', 'spritesheets/weapons/sword_basic.png', {
-      frameWidth: 10,
-      frameHeight: 23
-    });
-    this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
-    this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
-      frameWidth: 19,
-      frameHeight: 20,
-    });
-    this.load.spritesheet('knight-run', 'spritesheets/knight/knight_run.png', {
-      frameWidth: 19,
-      frameHeight: 20,
-    });
+    //this.load.image('tiles', 'tilesets/_DungeonTilesets.png');
   }
 
   /**
@@ -121,9 +108,6 @@ export default class DungeonScene extends Phaser.Scene {
     this.weapon = new Sword_Basic(this);
     this.weapon.pickupWeapon(this.player);
 
-    //this.x = new Sword_Basic(this);
-    //this.x.dropWeapon(this, x, y);
-
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
       this.hasPlayerReachedStairs = true;
@@ -159,24 +143,25 @@ export default class DungeonScene extends Phaser.Scene {
     this.lights.setAmbientColor(0x222222);
     this.groundLayer.setPipeline('Light2D');
     this.objectLayer.setPipeline('Light2D');
-    this.lightPoint = this.lights.addLight(this.player.x, this.player.y, 70, 0xF6C113, 3);
+    this.lightPoint = this.lights.addLight(this.player.x, this.player.y, 80, 0xedcf6d, 3);
     this.tweens.add({
       targets: this.lightPoint,
       intensity: {
-        value: 2.0,
+        value: 2.5,
         duration: 120,
         ease: 'Elastic.easeIn',
         repeat: -1,
         yoyo: true
       },
       radius: {
-        value: 71.0,
-        duration: 240,
+        value: 85.0,
+        duration: 200,
         ease: 'Elastic.easeOut',
         repeat: -1,
         yoyo: true
-      },
+      }
     });
+
   }
 
   /**
@@ -190,8 +175,8 @@ export default class DungeonScene extends Phaser.Scene {
     if (this.hasPlayerReachedStairs) return;
 
     this.player.update();
-    this.lightPoint.x = this.player.sprite.x;
-    this.lightPoint.y = this.player.sprite.y;
+    this.lightPoint.x = this.player.playerBox.x;
+    this.lightPoint.y = this.player.playerBox.y;
 
 
     const playerTileX = this.groundLayer.worldToTileX(this.player.playerBox.x);
