@@ -32,9 +32,14 @@ export default class SplashScreen extends Phaser.Scene {
     //  Display cover and progress bar textures.
     this.showCover();
     this.showProgressBar();
-
+    
     //  HINT: Declare all game assets to be loaded here.
     this.load.image('logo');
+    //  Loads all music files for the game: May need to be separated into a separate function if too many audio assets are added
+    this.load.audio('titleMusic', ['./sound/MusicResting.mp3']);
+    this.load.audio('musicCalm', ['./sound/MusicCalm.mp3'] );
+    this.load.audio('musicIntense', ['./sound/MusicIntense.mp3']);
+    this.load.audio('musicYouDied', ['./sound/MusicYouDied.mp3']);
   }
 
   /**
