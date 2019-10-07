@@ -46,7 +46,6 @@ export default class SplashScreen extends Phaser.Scene {
       frameWidth: 10,
       frameHeight: 23
     });
-    this.load.spritesheet('objects', 'tilesets/_DungeonTilesets.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
       frameWidth: 19,
       frameHeight: 20,
@@ -54,6 +53,15 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.spritesheet('knight-run', 'spritesheets/knight/knight_run.png', {
       frameWidth: 19,
       frameHeight: 20,
+    });
+
+    this.load.spritesheet('orc-idle', 'spritesheets/monsters/orc-idle.png', {
+      frameWidth: 16,
+      frameHeight: 16
+    });
+    this.load.spritesheet('orc-walk', 'spritesheets/monsters/orc-walk.png', {
+      frameWidth: 16,
+      frameHeight: 16
     });
 
   }

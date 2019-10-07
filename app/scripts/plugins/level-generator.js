@@ -12,7 +12,6 @@ export default class LevelGenerator{
   init(){
     this.generateDungeonRoom();
     this.generateObject();
-    this.generateEnemies();
   }
 
   generateDungeonRoom(){
@@ -67,16 +66,6 @@ export default class LevelGenerator{
           this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
         }
       }
-    });
-  }
-
-  generateEnemies() {
-    const rooms = this.dungeon.rooms.slice();
-
-    rooms.forEach(room => {
-      const numOfEnemies = Math.floor(Math.random() * 4);
-      var orc = this.dungeon.scene.add.sprite(0, 0, 'objects');
-      orc.frame = 87;
     });
   }
 

@@ -13,13 +13,13 @@ export default class Orc extends Monster {
        *      monsterInfo.spriteStr = sprite reference.
        */
   
-    constructor(scene, monsterInfo) {
-        super(scene, {animStr: 'orc-idle-anim', spriteStr: 'orc'}); 
-        
+    constructor(scene, x, y) {
+        super(scene, {animStr: 'orc-idle-anim', spriteStr: 'orc-idle'}, x, y); 
+
     }
     
     update(t, dt) {
-        //TODO: every second, move one or turn one
+
     }
     
     destroy() {

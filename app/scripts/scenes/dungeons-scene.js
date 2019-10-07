@@ -6,6 +6,7 @@ import TILES from '../objects/tiles-mapping';
 import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
 import { runInThisContext } from 'vm';
+import Orc from '../objects/monsters/orc';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -97,6 +98,7 @@ export default class DungeonScene extends Phaser.Scene {
 
     this.groundLayer.setCollisionByExclusion([129, 130, 131, 161, 162, 163, 194]);
     this.objectLayer.setCollision([430, 431, 462]);
+    
 
     //Position player and starting weapon
     const playerRoom = startRoom;
@@ -106,6 +108,8 @@ export default class DungeonScene extends Phaser.Scene {
 
     this.weapon = new Sword_Basic(this);
     this.weapon.pickupWeapon(this.player);
+
+    this.spawnEnemies(rooms, map);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
@@ -172,6 +176,8 @@ export default class DungeonScene extends Phaser.Scene {
       }
     });
 
+    
+
   }
 
   /**
@@ -193,6 +199,25 @@ export default class DungeonScene extends Phaser.Scene {
 
 
     this.tilemapVisibility.setActiveRoom(playerRoom);
+  }
+
+  //Spawns up to four enemies per room. Change maxEnemies parameter to tweak.
+  spawnEnemies(rooms, map) {
+    this.enemies = [];
+    const maxEnemies = 4;
+
+    rooms.forEach(room => {
+
+      const enemyCount = Math.floor(Math.random() * maxEnemies);
+      for (let i = 0; i < enemyCount; i++) {
+        
+        let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
+        let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
+
+        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4);
+        this.enemies.push(enemy);
+      }
+    });
   }
 
   /**

@@ -11,18 +11,22 @@ export default class Monster extends Phaser.GameObjects.Sprite {
      *      monsterInfo.spriteStr = sprite reference.
      */
 
-  constructor(scene, monsterInfo) {
+  constructor(scene, monsterInfo, x, y) {
     super(scene, 'monster');
     this.animKey = monsterInfo.animStr;
     this.spriteKey = monsterInfo.spriteStr;
     this.scene = scene;
     const anims = scene.anims;
     anims.create({
-      key: this.animKey,
+      key: 'orc-idle-anim',
       frames: anims.generateFrameNumbers(this.spriteKey, {start: 0, end: 16}),
       frameRate: 4,
       repeat: -1
     });
+
+    this.sprite = scene.add.sprite(x, y, this.spriteKey, 0);
+    this.sprite.anims.play(this.animKey);
+    
       
   }
   
