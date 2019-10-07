@@ -11,6 +11,7 @@ export default class LevelGenerator{
 
   init(){
     console.log(this.dungeon.tiles);
+    this.sword_basic = this.layer.objectLayer.putTileAt(83, 0, 0);
     this.generateDungeonRoom();
     this.generateObject();
   }

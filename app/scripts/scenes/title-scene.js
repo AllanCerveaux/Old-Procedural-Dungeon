@@ -31,6 +31,7 @@ export default class TitleScene extends Phaser.Scene {
    */
   preload() {
     this.load.image('bg', 'title-map.png');
+    
   }
 
   /**
@@ -40,10 +41,14 @@ export default class TitleScene extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    var music = this.sound.add('titleMusic',{volume:0.15,loop:true});
+    music.play();
+
     const bgStartX = Math.floor(Math.random()*800);
     const bgStartY = Math.floor(Math.random()*600);
     this.bgMap = this.physics.add.image(bgStartX, bgStartY, 'bg');
     this.bgMap.setVelocity(this.panVelocityX, this.panVelocityY);
+    
 
 
     const title = this.add.text(0, 0, 'PROCEDURAL DUNGEON', {
@@ -89,6 +94,7 @@ export default class TitleScene extends Phaser.Scene {
     this.input.on('pointerup', function(pointer) {
       if (pointer.x < config.width - 130 && pointer.y < config.height - 20)
         this.scene.scene.start('DungeonScene');
+        music.stop(); //Stops title music when Level 1 loads
     });
 
   }
@@ -111,7 +117,6 @@ export default class TitleScene extends Phaser.Scene {
     }
     
     if (this.bgMap.y > config.height && this.panVelocityY > 0) {
-      console.log(this.bgMap.y, config.height);
       this.panVelocityY *= -1;
     }
     else if (this.bgMap.y < 0 && this.panVelocityY < 0) {
