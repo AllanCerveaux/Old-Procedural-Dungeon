@@ -1,3 +1,5 @@
+import Weapon from '../objects/weapon';
+
 export default class Player extends Phaser.GameObjects.Sprite {
   /**
    *  My custom sprite.
@@ -12,12 +14,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'player');
     this.scene = scene;
+    this.moving = false;
+    this.attacking = false;
+    this.facing = 'right';
+
     const anims = scene.anims;
     anims.create({
       key: 'player-idle',
-      frames: anims.generateFrameNumbers('knight-idle', {start: 0, end: 16}),
+      frames: anims.generateFrameNumbers('knight-idle', {start: 0, end: 19}),
       frameRate: 4,
-      repeat: 0
+      repeat: -1
     });
 
     anims.create({
@@ -28,53 +34,79 @@ export default class Player extends Phaser.GameObjects.Sprite {
     });
 
 
-    this.sprite = scene.physics.add
-      .sprite(x,y,'knight-idle', 0)
+    this.sprite = scene.add
+      .sprite(0,0,'knight-idle', 0)
       .setSize(12, 15);
 
-    this.sprite.body.offset.y = 5;
-    this.sprite.body.offset.x = 3;
-
     this.sprite.anims.play('player-idle');
+
+    this.playerBox = scene.add.container(x, y);
+    this.playerBox.setSize(12, 15);
+    scene.physics.world.enable(this.playerBox);
+    this.playerBox.add(this.sprite);
+    this.playerBox.body.offset.y = 2;
+    this.playerBox.body.offset.x = -1;
 
     this.keys = scene.input.keyboard.createCursorKeys();
   }
 
   freeze() {
-    this.sprite.body.moves = false;
+    this.playerBox.body.moves = false;
+  }
+
+  getActiveWeapon() {
+    return this.activeWeapon;
+  }
+
+  setActiveWeapon(weapon) {
+    this.activeWeapon = weapon;
   }
 
   update() {
     const keys = this.keys;
+    const playerBox = this.playerBox;
     const sprite = this.sprite;
     const speed = 100;
-    //const prevVeloc48ity = sprite.body.velocity.clone();
 
-    sprite.body.setVelocity(0);
+    playerBox.body.setVelocity(0);
 
-    if(keys.left.isDown){
-      sprite.body.setVelocityX(-speed);
+    if(keys.left.isDown) {
+      this.facing = 'left';
+      playerBox.body.setVelocityX(-speed);
       sprite.setFlip(true);
-      this.sprite.body.offset.x = 5;
-    }else if (keys.right.isDown){
-      sprite.body.setVelocityX(speed);
+      this.playerBox.body.offset.x = 0;
+      this.activeWeapon.sprite.x = 7;
+    } else if (keys.right.isDown){
+      this.facing = 'right'
+      playerBox.body.setVelocityX(speed);
       sprite.setFlip(false);
-      this.sprite.body.offset.x = 4;
+      this.playerBox.body.offset.x = 0;
+      this.activeWeapon.sprite.x = -7;
 
     }
 
-    if(keys.up.isDown){
-      sprite.body.setVelocityY(-speed);
-    }else if(keys.down.isDown){
-      sprite.body.setVelocityY(speed);
+    if(keys.up.isDown) {
+      playerBox.body.setVelocityY(-speed);
+    } else if(keys.down.isDown) {
+      playerBox.body.setVelocityY(speed);
     }
 
-    sprite.body.velocity.normalize().scale(speed);
+    playerBox.body.velocity.normalize().scale(speed);
 
-    if(keys.left.isDown || keys.right.isDown || keys.down.isDown || keys.up.isDown){
+    if(keys.left.isDown || keys.right.isDown || keys.down.isDown || keys.up.isDown) {
+      this.moving = true;
       sprite.anims.play('player-run', true);
-    }else {
+    } else if (this.moving) {
+      this.moving = false;
       sprite.anims.play('player-idle', true);
+    }
+
+    if (keys.space.isDown) {
+      this.attacking = true;
+      this.activeWeapon.attack(this);
+    } else if (this.attacking) {
+      this.attacking = false;
+      this.activeWeapon.sheathe(this);
     }
 
   }

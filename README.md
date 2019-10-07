@@ -32,5 +32,9 @@ Phaser 3 and `generator-phaser-plus`.
 
 ## Contributor
 
-> add your github profile if you contributing `[name](link-to-github-profile)`
-https://github.com/mulleydev - SplashScreen Changed -
+Add your github profile if you contributing `[name](link-to-github-profile)`
+- [MulleyDev](https://github.com/mulleydev)
+- [Nicole Brooks](https://github.com/N-Brooks)
+- [BlunT76](https://github.com/BlunT76)
+- [LauDev](https://github.com/ldevernay)
+- [erikbfeeley](https://github.com/erikbfeeley)
