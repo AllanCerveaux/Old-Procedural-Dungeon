@@ -34,20 +34,7 @@ export default class DungeonScene extends Phaser.Scene {
    *  @protected
    */
   preload() {
-    this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
 
-    this.load.spritesheet('sword-basic', 'spritesheets/weapons/sword_basic.png', {
-      frameWidth: 10,
-      frameHeight: 23
-    });
-    this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
-      frameWidth: 19,
-      frameHeight: 20,
-    });
-    this.load.spritesheet('knight-run', 'spritesheets/knight/knight_run.png', {
-      frameWidth: 19,
-      frameHeight: 20,
-    });
   }
 
   /**
