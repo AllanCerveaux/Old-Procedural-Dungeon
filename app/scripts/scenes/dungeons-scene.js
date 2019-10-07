@@ -34,7 +34,7 @@ export default class DungeonScene extends Phaser.Scene {
    *  @protected
    */
   preload() {
-    //this.load.image('tiles', 'tilesets/_DungeonTilesets.png');
+    
   }
 
   /**
@@ -69,7 +69,7 @@ export default class DungeonScene extends Phaser.Scene {
       this.music = this.sound.add('musicCalm',{volume:0.15,loop:true});
       this.music.play();
     }
-    else if(this.level > 1 && this.level <3){
+    else if(this.level > 1 && this.level < 3){
       this.music.stop();
       console.log("level 2");
       this.music = this.sound.add('musicIntense',{volume:0.15,loop:true});
@@ -143,7 +143,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.lights.setAmbientColor(0x222222);
     this.groundLayer.setPipeline('Light2D');
     this.objectLayer.setPipeline('Light2D');
-    this.lightPoint = this.lights.addLight(this.player.x, this.player.y, 80, 0xedcf6d, 3);
+    this.lightPoint = this.lights.addLight(this.player.playerBox.x, this.player.playerBox.y, 80, 0xedcf6d, 3);
     this.tweens.add({
       targets: this.lightPoint,
       intensity: {
