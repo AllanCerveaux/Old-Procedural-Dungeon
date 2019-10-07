@@ -71,13 +71,11 @@ export default class DungeonScene extends Phaser.Scene {
     }
     else if(this.level > 1 && this.level < 3){
       this.music.stop();
-      console.log("level 2");
       this.music = this.sound.add('musicIntense',{volume:0.15,loop:true});
       this.music.play();
     }
     else if(this.level >= 3){
       this.music.stop();
-      console.log("level 3");
       this.music = this.sound.add('musicYouDied', {volume:0.15,loop:true});
       this.music.play();
     }
@@ -120,6 +118,7 @@ export default class DungeonScene extends Phaser.Scene {
       });
     });
 
+    
     this.physics.add.collider(this.player.playerBox, this.groundLayer);
     this.physics.add.collider(this.player.playerBox, this.objectLayer);
 

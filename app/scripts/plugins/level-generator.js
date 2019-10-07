@@ -10,9 +10,9 @@ export default class LevelGenerator{
   }
 
   init(){
-    this.sword_basic = this.layer.objectLayer.putTileAt(83, 0, 0);
     this.generateDungeonRoom();
     this.generateObject();
+    this.generateEnemies();
   }
 
   generateDungeonRoom(){
@@ -69,4 +69,15 @@ export default class LevelGenerator{
       }
     });
   }
+
+  generateEnemies() {
+    const rooms = this.dungeon.rooms.slice();
+
+    rooms.forEach(room => {
+      const numOfEnemies = Math.floor(Math.random() * 4);
+      var orc = this.dungeon.scene.add.sprite(0, 0, 'objects');
+      orc.frame = 87;
+    });
+  }
+
 }

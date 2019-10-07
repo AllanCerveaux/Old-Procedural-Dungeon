@@ -46,6 +46,7 @@ export default class SplashScreen extends Phaser.Scene {
       frameHeight: 23
     });
     this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
+    this.load.spritesheet('objects', 'tilesets/_DungeonTilesets.png', { frameWidth: 16, frameHeight: 16 });
     this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
       frameWidth: 19,
       frameHeight: 20,
