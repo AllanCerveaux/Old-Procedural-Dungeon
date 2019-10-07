@@ -39,6 +39,7 @@ export default class DungeonScene extends Phaser.Scene {
       frameWidth: 10,
       frameHeight: 23
     });
+    this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
     this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
       frameWidth: 19,
       frameHeight: 20,
@@ -134,6 +135,30 @@ export default class DungeonScene extends Phaser.Scene {
       })
       .setScrollFactor(0)
       .setDepth(1);
+    
+    // Add Lights
+    this.lights.enable();
+    this.lights.setAmbientColor(0x222222);
+    this.groundLayer.setPipeline('Light2D');
+    this.objectLayer.setPipeline('Light2D');
+    this.lightPoint = this.lights.addLight(this.player.x, this.player.y, 70, 0xF6C113, 3);
+    this.tweens.add({
+      targets: this.lightPoint,
+      intensity: {
+        value: 2.0,
+        duration: 120,
+        ease: 'Elastic.easeIn',
+        repeat: -1,
+        yoyo: true
+      },
+      radius: {
+        value: 71.0,
+        duration: 240,
+        ease: 'Elastic.easeOut',
+        repeat: -1,
+        yoyo: true
+      },
+    });
   }
 
   /**
@@ -147,6 +172,8 @@ export default class DungeonScene extends Phaser.Scene {
     if (this.hasPlayerReachedStairs) return;
 
     this.player.update();
+    this.lightPoint.x = this.player.sprite.x;
+    this.lightPoint.y = this.player.sprite.y;
 
 
     const playerTileX = this.groundLayer.worldToTileX(this.player.playerBox.x);
