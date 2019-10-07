@@ -10,6 +10,7 @@ export default class LevelGenerator{
   }
 
   init(){
+    this.sword_basic = this.layer.objectLayer.putTileAt(83, 0, 0);
     this.generateDungeonRoom();
     this.generateObject();
   }
