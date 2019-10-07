@@ -27,7 +27,6 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       frameRate: 4,
       repeat: -1
     });
-      
   }
 
   /* Places a sprite on the ground at the specified x and y values.
@@ -57,9 +56,16 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       .setScale(0.7);
     this.sprite.x = -7;
     this.sprite.y = 0;
+
+    /* Change by BlunT76
+    * added a body to this.sprite so we can check collision
+    * between the swords and other sprites or layer
+    */
+    this.scene.physics.world.enable(this.sprite);
+    // End of change
+
     player.playerBox.add(this.sprite);
     this.sprite.anims.play(this.animKey, false, player.sprite.anims.currentFrame.index);
-      
   }
   
   update() {

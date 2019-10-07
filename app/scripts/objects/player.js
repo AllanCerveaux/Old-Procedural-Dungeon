@@ -77,7 +77,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.playerBox.body.offset.x = 0;
       this.activeWeapon.sprite.x = 7;
     } else if (keys.right.isDown){
-      this.facing = 'right'
+      this.facing = 'right';
       playerBox.body.setVelocityX(speed);
       sprite.setFlip(false);
       this.playerBox.body.offset.x = 0;

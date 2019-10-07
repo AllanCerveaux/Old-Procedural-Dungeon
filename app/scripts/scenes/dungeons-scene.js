@@ -35,6 +35,7 @@ export default class DungeonScene extends Phaser.Scene {
    */
   preload() {
     
+
   }
 
   /**
@@ -121,6 +122,16 @@ export default class DungeonScene extends Phaser.Scene {
     
     this.physics.add.collider(this.player.playerBox, this.groundLayer);
     this.physics.add.collider(this.player.playerBox, this.objectLayer);
+    
+    /* 
+    * Check for collision overlap between weapons and objectLayer
+    * TODO: add breaking object animation, add breaking object sound
+    */
+    this.physics.add.overlap(this.player.activeWeapon.sprite, this.objectLayer, (player, obj) => {
+      if (obj.index > 0 && this.player.attacking) {
+        this.objectLayer.removeTileAt(obj.x, obj.y);
+      }
+    }, null, this);
 
     const camera = this.cameras.main;
     camera.setZoom(2);
@@ -172,11 +183,9 @@ export default class DungeonScene extends Phaser.Scene {
    */
   update(/* t, dt */){
     if (this.hasPlayerReachedStairs) return;
-
     this.player.update();
     this.lightPoint.x = this.player.playerBox.x;
     this.lightPoint.y = this.player.playerBox.y;
-
 
     const playerTileX = this.groundLayer.worldToTileX(this.player.playerBox.x);
     const playerTileY = this.groundLayer.worldToTileY(this.player.playerBox.y);
