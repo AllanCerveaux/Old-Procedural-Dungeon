@@ -128,13 +128,21 @@ export default class DungeonScene extends Phaser.Scene {
     this.lights.enable();
     this.lights.setAmbientColor(0x222222);
     this.groundLayer.setPipeline('Light2D');
+    this.objectLayer.setPipeline('Light2D');
     this.lightPoint = this.lights.addLight(this.player.x, this.player.y, 70, 0xF6C113, 3);
     this.tweens.add({
       targets: this.lightPoint,
       intensity: {
         value: 2.0,
-        duration: 60,
+        duration: 120,
         ease: 'Elastic.easeIn',
+        repeat: -1,
+        yoyo: true
+      },
+      radius: {
+        value: 71.0,
+        duration: 240,
+        ease: 'Elastic.easeOut',
         repeat: -1,
         yoyo: true
       },
