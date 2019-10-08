@@ -55,6 +55,15 @@ export default class SplashScreen extends Phaser.Scene {
       frameHeight: 20,
     });
 
+    this.load.spritesheet('orc-idle', 'spritesheets/monsters/orc-idle.png', {
+      frameWidth: 16,
+      frameHeight: 16
+    });
+    this.load.spritesheet('orc-walk', 'spritesheets/monsters/orc-walk.png', {
+      frameWidth: 16,
+      frameHeight: 16
+    });
+
   }
 
   /**

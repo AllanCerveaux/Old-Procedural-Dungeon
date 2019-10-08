@@ -6,6 +6,7 @@ import TILES from '../objects/tiles-mapping';
 import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
 import { runInThisContext } from 'vm';
+import Orc from '../objects/monsters/orc';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -34,6 +35,7 @@ export default class DungeonScene extends Phaser.Scene {
    *  @protected
    */
   preload() {
+    
 
   }
 
@@ -71,13 +73,11 @@ export default class DungeonScene extends Phaser.Scene {
     }
     else if(this.level > 1 && this.level < 3){
       this.music.stop();
-      console.log("level 2");
       this.music = this.sound.add('musicIntense',{volume:0.15,loop:true});
       this.music.play();
     }
     else if(this.level >= 3){
       this.music.stop();
-      console.log("level 3");
       this.music = this.sound.add('musicYouDied', {volume:0.15,loop:true});
       this.music.play();
     }
@@ -98,6 +98,7 @@ export default class DungeonScene extends Phaser.Scene {
 
     this.groundLayer.setCollisionByExclusion([129, 130, 131, 161, 162, 163, 194]);
     this.objectLayer.setCollision([430, 431, 462]);
+    
 
     //Position player and starting weapon
     const playerRoom = startRoom;
@@ -108,8 +109,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.weapon = new Sword_Basic(this);
     this.weapon.pickupWeapon(this.player);
 
-    //this.x = new Sword_Basic(this);
-    //this.x.dropWeapon(this, x, y);
+    this.spawnEnemies(rooms, map);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
@@ -123,6 +123,7 @@ export default class DungeonScene extends Phaser.Scene {
       });
     });
 
+    
     this.physics.add.collider(this.player.playerBox, this.groundLayer);
     this.physics.add.collider(this.player.playerBox, this.objectLayer);
     
@@ -156,24 +157,27 @@ export default class DungeonScene extends Phaser.Scene {
     this.lights.setAmbientColor(0x222222);
     this.groundLayer.setPipeline('Light2D');
     this.objectLayer.setPipeline('Light2D');
-    this.lightPoint = this.lights.addLight(this.player.playerBox.x, this.player.playerBox.y, 70, 0xF6C113, 3);
+    this.lightPoint = this.lights.addLight(this.player.playerBox.x, this.player.playerBox.y, 80, 0xedcf6d, 3);
     this.tweens.add({
       targets: this.lightPoint,
       intensity: {
-        value: 2.0,
+        value: 2.5,
         duration: 120,
         ease: 'Elastic.easeIn',
         repeat: -1,
         yoyo: true
       },
       radius: {
-        value: 71.0,
-        duration: 240,
+        value: 85.0,
+        duration: 200,
         ease: 'Elastic.easeOut',
         repeat: -1,
         yoyo: true
-      },
+      }
     });
+
+    
+
   }
 
   /**
@@ -195,6 +199,25 @@ export default class DungeonScene extends Phaser.Scene {
 
 
     this.tilemapVisibility.setActiveRoom(playerRoom);
+  }
+
+  //Spawns up to four enemies per room. Change maxEnemies parameter to tweak.
+  spawnEnemies(rooms, map) {
+    this.enemies = [];
+    const maxEnemies = 4;
+
+    rooms.forEach(room => {
+
+      const enemyCount = Math.floor(Math.random() * maxEnemies);
+      for (let i = 0; i < enemyCount; i++) {
+        
+        let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
+        let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
+
+        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4);
+        this.enemies.push(enemy);
+      }
+    });
   }
 
   /**
