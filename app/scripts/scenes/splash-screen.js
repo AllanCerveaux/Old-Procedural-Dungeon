@@ -55,11 +55,11 @@ export default class SplashScreen extends Phaser.Scene {
       frameHeight: 20,
     });
 
-    this.load.spritesheet('orc-idle', 'spritesheets/monsters/orc-idle.png', {
+    this.load.spritesheet('orc-idle', ['spritesheets/monsters/orc-idle.png', 'spritesheets/monsters/orc-idle_n.png'], {
       frameWidth: 16,
       frameHeight: 16
     });
-    this.load.spritesheet('orc-walk', 'spritesheets/monsters/orc-walk.png', {
+    this.load.spritesheet('orc-walk', ['spritesheets/monsters/orc-walk.png', 'spritesheets/monsters/orc-walk_n.png'], {
       frameWidth: 16,
       frameHeight: 16
     });
@@ -76,6 +76,18 @@ export default class SplashScreen extends Phaser.Scene {
     //  We have nothing left to do here. Start the next scene.
     //this.scene.start('DungeonScene');
     this.scene.start('TitleScene');
+    this.anims.create({
+      key: 'orcIdle',
+      frames: this.anims.generateFrameNumbers('orc-idle', {start: 0, end: 3}),
+      frameRate: 4,
+      repeat: -1
+    });
+    this.anims.create({
+      key: 'orcWalk',
+      frames: this.anims.generateFrameNumbers('orc-walk', {start: 0, end: 3}),
+      frameRate: 4,
+      repeat: -1
+    });
   }
 
   //  ------------------------------------------------------------------------
