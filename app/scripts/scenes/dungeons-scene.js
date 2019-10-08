@@ -7,6 +7,7 @@ import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
 import { runInThisContext } from 'vm';
 import Orc from '../objects/monsters/orc';
+import Orc2 from '../objects/monsters/Orc2';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -78,7 +79,7 @@ export default class DungeonScene extends Phaser.Scene {
     }
     else if(this.level >= 3){
       this.music.stop();
-      this.music = this.sound.add('musicYouDied', {volume:0.15,loop:true});
+      this.music = this.sound.add('musicIntense', {volume:0.15,loop:true});
       this.music.play();
     }
     
@@ -105,11 +106,14 @@ export default class DungeonScene extends Phaser.Scene {
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
     this.player = new Player(this, x, y);
+    this.player.setDepth(10);
 
     this.weapon = new Sword_Basic(this);
     this.weapon.pickupWeapon(this.player);
+    this.weapon.setDepth(10);
 
     this.spawnEnemies(rooms, map);
+    this.spawnOrc2(rooms, map);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
@@ -126,7 +130,7 @@ export default class DungeonScene extends Phaser.Scene {
     
     this.physics.add.collider(this.player.playerBox, this.groundLayer);
     this.physics.add.collider(this.player.playerBox, this.objectLayer);
-    
+    this.physics.add.collider(this.player.playerBox, this.enemies);
     /* 
     * Check for collision overlap between weapons and objectLayer
     * TODO: add breaking object animation, add breaking object sound
@@ -136,6 +140,7 @@ export default class DungeonScene extends Phaser.Scene {
         this.objectLayer.removeTileAt(obj.x, obj.y);
       }
     }, null, this);
+
 
     const camera = this.cameras.main;
     camera.setZoom(2);
@@ -168,7 +173,7 @@ export default class DungeonScene extends Phaser.Scene {
         yoyo: true
       },
       radius: {
-        value: 85.0,
+        value: 81.0,
         duration: 200,
         ease: 'Elastic.easeOut',
         repeat: -1,
@@ -197,6 +202,8 @@ export default class DungeonScene extends Phaser.Scene {
     const playerTileY = this.groundLayer.worldToTileY(this.player.playerBox.y);
     const playerRoom = this.dungeon.getRoomAt(playerTileX, playerTileY);
 
+    // handle visibility of enemies,
+    this.checkEnemiesVisibility(playerRoom);
 
     this.tilemapVisibility.setActiveRoom(playerRoom);
   }
@@ -219,6 +226,50 @@ export default class DungeonScene extends Phaser.Scene {
       }
     });
   }
+
+  /* Like SpawnEnemies but only one class
+  * I didn't succeed to get it working with monster and orc, so i made like i do usually
+  * Orc2 are red tinted to see difference
+  */
+  spawnOrc2(rooms, map) {
+    this.enemies = [];
+    const maxEnemies = 4;
+    rooms.forEach((room, i) => {
+      const enemyCount = Math.floor(Math.random() * maxEnemies);
+      for (let i = 0; i < enemyCount; i++) {
+
+        let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
+        let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
+
+        let enemy = new Orc2(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
+          key: 'orc-idle',
+        });
+        this.enemies.push(enemy);
+      }
+    });
+    /* 
+    * Check for collision overlap between weapons and monsters
+    * TODO: add breaking object animation, add breaking object sound
+    */
+    this.physics.add.overlap(this.player.activeWeapon.sprite, this.enemies, (weapon, enemy) => {
+      if (this.player.attacking) {
+        enemy.destroy();
+      }
+    }, null, this);
+    this.physics.add.collider(this.enemies, this.groundLayer);
+  }
+
+  checkEnemiesVisibility(playerRoom) {
+    this.enemies.forEach(enemy => {
+      const enemyTileX = this.groundLayer.worldToTileX(enemy.x);
+      const enemyTileY = this.groundLayer.worldToTileY(enemy.y);
+      const enemyRoom = this.dungeon.getRoomAt(enemyTileX, enemyTileY);
+      if (enemyRoom == playerRoom && enemy.alpha === 0) {
+        enemy.alpha = 1;
+      }
+    });
+  }
+
 
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
