@@ -40,6 +40,15 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.audio('musicCalm', ['./sound/MusicCalm.mp3'] );
     this.load.audio('musicIntense', ['./sound/MusicIntense.mp3']);
     this.load.audio('musicYouDied', ['./sound/MusicYouDied.mp3']);
+
+    this.load.spritesheet('orc-idle', ['spritesheets/monsters/orc-idle.png', 'spritesheets/monsters/orc-idle_n.png'], {
+      frameWidth: 16,
+      frameHeight: 16
+    });
+    this.load.spritesheet('orc-walk', ['spritesheets/monsters/orc-walk.png', 'spritesheets/monsters/orc-walk_n.png'], {
+      frameWidth: 16,
+      frameHeight: 16
+    });
   }
 
   /**
