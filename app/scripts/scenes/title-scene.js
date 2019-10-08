@@ -84,16 +84,17 @@ export default class TitleScene extends Phaser.Scene {
       }
     });
 
-    github.setInteractive().on('pointerup', function(pointer) {
+    github.setInteractive().on('pointerup', function(/*pointer*/) {
       window.open('https://github.com/AllanCerveaux/Procedural-Dungeon', '_blank');
     });
     
 
     //Clicking anywhere (except on the GitHub link) switches to Level 1.
     this.input.on('pointerup', function(pointer) {
-      if (pointer.x < config.width - 130 && pointer.y < config.height - 20)
+      if (pointer.x < config.width - 130 && pointer.y < config.height - 20){
         this.scene.scene.start('DungeonScene');
         music.stop(); //Stops title music when Level 1 loads
+      }
     });
 
   }
@@ -121,7 +122,7 @@ export default class TitleScene extends Phaser.Scene {
     else if (this.bgMap.y < 0 && this.panVelocityY < 0) {
       this.panVelocityY *= -1;
     }
-      this.bgMap.setVelocity(this.panVelocityX, this.panVelocityY);
+    this.bgMap.setVelocity(this.panVelocityX, this.panVelocityY);
   }
 
   /**

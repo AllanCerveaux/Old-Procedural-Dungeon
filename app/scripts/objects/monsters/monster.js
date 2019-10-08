@@ -29,12 +29,11 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     
       
   }
-  
+
   update() {
   }
-  
+
   destroy() {
     this.sprite.destroy();
   }
 }
-  

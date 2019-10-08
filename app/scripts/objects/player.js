@@ -1,5 +1,3 @@
-import Weapon from '../objects/weapon';
-
 export default class Player extends Phaser.GameObjects.Sprite {
   /**
    *  My custom sprite.

@@ -1,11 +1,10 @@
 import Dungeon from '@mikewesthad/dungeon';
 import Player from '../objects/player';
-import Weapon from '../objects/weapon';
 import Sword_Basic from '../objects/weapons/sword-basic';
 import TILES from '../objects/tiles-mapping';
 import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
-import { runInThisContext } from 'vm';
+// import { runInThisContext } from 'vm';
 import Orc from '../objects/monsters/orc';
 
 export default class DungeonScene extends Phaser.Scene {
