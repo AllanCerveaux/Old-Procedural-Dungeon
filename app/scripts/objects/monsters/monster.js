@@ -18,7 +18,7 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     this.scene = scene;
     const anims = scene.anims;
     anims.create({
-      key: 'orc-idle-anim',
+      key: this.animKey,
       frames: anims.generateFrameNumbers(this.spriteKey, {start: 0, end: 16}),
       frameRate: 4,
       repeat: -1
