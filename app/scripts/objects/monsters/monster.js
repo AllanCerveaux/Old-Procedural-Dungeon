@@ -12,7 +12,7 @@ export default class Monster extends Phaser.GameObjects.Sprite {
      */
 
   constructor(scene, monsterInfo, x, y) {
-    super(scene, x, y, 'monster');
+    super(scene, 'monster');
     this.animKey = monsterInfo.animStr;
     this.spriteKey = monsterInfo.spriteStr;
     this.scene = scene;
@@ -26,16 +26,15 @@ export default class Monster extends Phaser.GameObjects.Sprite {
 
     this.sprite = scene.add.sprite(x, y, this.spriteKey, 0);
     this.sprite.anims.play(this.animKey);
-
     
-    this.scene.add.existing(this);
+      
   }
-
-  preUpdate(time, delta) {
-    super.preUpdate(time);
+  
+  update() {
   }
-
+  
   destroy() {
     this.sprite.destroy();
   }
 }
+  

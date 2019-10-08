@@ -30,7 +30,6 @@ export default class TitleScene extends Phaser.Scene {
    *  @protected
    */
   preload() {
-    this.load.image('bg', 'title-map.png');
     
   }
 

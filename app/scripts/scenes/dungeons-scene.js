@@ -7,6 +7,7 @@ import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
 import { runInThisContext } from 'vm';
 import Orc from '../objects/monsters/orc';
+import Orc2 from '../objects/monsters/Orc2';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -35,20 +36,8 @@ export default class DungeonScene extends Phaser.Scene {
    *  @protected
    */
   preload() {
-    this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
+    
 
-    this.load.spritesheet('sword-basic', 'spritesheets/weapons/sword_basic.png', {
-      frameWidth: 10,
-      frameHeight: 23
-    });
-    this.load.spritesheet('knight-idle', 'spritesheets/knight/knight_idle.png', {
-      frameWidth: 19,
-      frameHeight: 20,
-    });
-    this.load.spritesheet('knight-run', 'spritesheets/knight/knight_run.png', {
-      frameWidth: 19,
-      frameHeight: 20,
-    });
   }
 
   /**
@@ -110,6 +99,7 @@ export default class DungeonScene extends Phaser.Scene {
 
     this.groundLayer.setCollisionByExclusion([129, 130, 131, 161, 162, 163, 194]);
     this.objectLayer.setCollision([430, 431, 462]);
+    
 
     //Position player and starting weapon
     const playerRoom = startRoom;
@@ -123,6 +113,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.weapon.setDepth(10);
 
     this.spawnEnemies(rooms, map);
+    this.spawnOrc2(rooms, map);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
@@ -136,6 +127,7 @@ export default class DungeonScene extends Phaser.Scene {
       });
     });
 
+    
     this.physics.add.collider(this.player.playerBox, this.groundLayer);
     this.physics.add.collider(this.player.playerBox, this.objectLayer);
     this.physics.add.collider(this.player.playerBox, this.enemies);
@@ -186,8 +178,11 @@ export default class DungeonScene extends Phaser.Scene {
         ease: 'Elastic.easeOut',
         repeat: -1,
         yoyo: true
-      },
+      }
     });
+
+    
+
   }
 
   /**
@@ -207,14 +202,10 @@ export default class DungeonScene extends Phaser.Scene {
     const playerTileY = this.groundLayer.worldToTileY(this.player.playerBox.y);
     const playerRoom = this.dungeon.getRoomAt(playerTileX, playerTileY);
 
+    // handle visibility of enemies,
+    this.checkEnemiesVisibility(playerRoom);
 
     this.tilemapVisibility.setActiveRoom(playerRoom);
-
-    // this.enemies.forEach(e => {
-    //   if (e.active) {
-    //     e.update();
-    //   }
-    // });
   }
 
   //Spawns up to four enemies per room. Change maxEnemies parameter to tweak.
@@ -223,15 +214,37 @@ export default class DungeonScene extends Phaser.Scene {
     const maxEnemies = 4;
 
     rooms.forEach(room => {
+
+      const enemyCount = Math.floor(Math.random() * maxEnemies);
+      for (let i = 0; i < enemyCount; i++) {
+        
+        let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
+        let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
+
+        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4);
+        this.enemies.push(enemy);
+      }
+    });
+  }
+
+  /* Like SpawnEnemies but only one class
+  * I didn't succeed to get it working with monster and orc, so i made like i do usually
+  * Orc2 are red tinted to see difference
+  */
+  spawnOrc2(rooms, map) {
+    this.enemies = [];
+    const maxEnemies = 4;
+    rooms.forEach((room, i) => {
       const enemyCount = Math.floor(Math.random() * maxEnemies);
       for (let i = 0; i < enemyCount; i++) {
 
         let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
         let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
 
-        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4);
-        enemy.setPipeline('Light2D');
-        this.enemies.push(enemy.sprite);
+        let enemy = new Orc2(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
+          key: 'orc-idle',
+        });
+        this.enemies.push(enemy);
       }
     });
     /* 
@@ -244,8 +257,19 @@ export default class DungeonScene extends Phaser.Scene {
       }
     }, null, this);
     this.physics.add.collider(this.enemies, this.groundLayer);
-    console.log(this.enemies)
   }
+
+  checkEnemiesVisibility(playerRoom) {
+    this.enemies.forEach(enemy => {
+      const enemyTileX = this.groundLayer.worldToTileX(enemy.x);
+      const enemyTileY = this.groundLayer.worldToTileY(enemy.y);
+      const enemyRoom = this.dungeon.getRoomAt(enemyTileX, enemyTileY);
+      if (enemyRoom == playerRoom && enemy.alpha === 0) {
+        enemy.alpha = 1;
+      }
+    });
+  }
+
 
   /**
    *  Called after a scene is rendered. Handles rendenring post processing.
