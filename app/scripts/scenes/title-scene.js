@@ -51,7 +51,7 @@ export default class TitleScene extends Phaser.Scene {
 
 
     const title = this.add.text(0, 0, 'PROCEDURAL DUNGEON', {
-      font: 'bold 70px Courier New',
+      font: 'bold 50px Courier New',
       color: 'white'
     });
     title.setOrigin(-0.03, -1);
@@ -83,6 +83,19 @@ export default class TitleScene extends Phaser.Scene {
         bottom: 3
       }
     });
+
+    const platypus = this.add.text(config.width/2 - 70, config.height - 20, 'Made by Platypus', {
+      font: '12px Arial',
+      color: 'white',
+      backgroundColor: "rgba(0,0,0,0.7)",
+      align: 'center',
+      padding: {
+        left: 10,
+        right: 10,
+        top: 3,
+        bottom: 3
+      }
+    })
 
     github.setInteractive().on('pointerup', function(/*pointer*/) {
       window.open('https://github.com/AllanCerveaux/Procedural-Dungeon', '_blank');
