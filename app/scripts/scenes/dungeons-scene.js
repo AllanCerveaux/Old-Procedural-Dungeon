@@ -135,6 +135,18 @@ export default class DungeonScene extends Phaser.Scene {
     * TODO: add breaking object animation, add breaking object sound
     */
     this.physics.add.overlap(this.player.activeWeapon.sprite, this.objectLayer, (player, obj) => {
+      
+      if (obj.index === 398 && this.player.attacking) {
+        // Crate top part, dont do anything
+        return;
+      }
+      if (obj.index === 430 && this.player.attacking) {
+        // This is a crate, remove top part too
+        this.objectLayer.removeTileAt(obj.x, obj.y - 1);
+        this.objectLayer.removeTileAt(obj.x, obj.y);
+
+        return;
+      }
       if (obj.index > 0 && this.player.attacking) {
         this.objectLayer.removeTileAt(obj.x, obj.y);
       }
@@ -233,7 +245,7 @@ export default class DungeonScene extends Phaser.Scene {
   spawnOrc2(rooms, map) {
     this.enemies = [];
     const maxEnemies = 4;
-    rooms.forEach((room, i) => {
+    rooms.forEach((room) => {
       const enemyCount = Math.floor(Math.random() * maxEnemies);
       for (let i = 0; i < enemyCount; i++) {
 

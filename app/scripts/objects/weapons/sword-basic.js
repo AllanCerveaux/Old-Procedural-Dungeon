@@ -26,26 +26,27 @@ export default class Sword_Basic extends Weapon {
   * so we can now destroy all the objects blocking the doors
   */
   attack(player) {
-    if (player.facing === 'right') {
+    if (player.lastDirection === 'right') {
       this.sprite.setScale(1);
       this.sprite.x = 13;
       this.sprite.y = 5;
       this.sprite.angle = 90;
       this.sprite.body.setSize(20, 5);
-    } else {
+    }
+     if (player.lastDirection === 'left'){
       this.sprite.setScale(1);
       this.sprite.x = -13;
       this.sprite.y = 5;
       this.sprite.angle = 270;
       this.sprite.body.setSize(20, 5);
-    }
-    if (player.keys.up.isDown) {
+    } 
+     if (player.lastDirection === 'down') {
       this.sprite.x = 0;
       this.sprite.y = -13;
       this.sprite.angle = 0;
       this.sprite.body.setSize(5, 20);
     }
-    if (player.keys.down.isDown) {
+     if (player.lastDirection === 'up') {
       this.sprite.x = 0;
       this.sprite.y = 13;
       this.sprite.angle = 180;
