@@ -56,15 +56,35 @@ export default class LevelGenerator{
         this.layer.objectLayer.weightedRandomize(x, y, 1, 1, TILES.SKULL);
       }else {
         if (room.height >= 5) {
-          this.layer.objectLayer.putTileAt(TILES.SKULL, room.centerX - Math.floor(Math.random() * (3 - 1) + 1), room.centerY + Math.floor(Math.random() * (3 - 1) + 1));
-          this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX - Math.floor(Math.random() * (3 - 1) + 1), room.centerY + Math.floor(Math.random() * (3 - 1) + 1));
-          this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (3 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+         const skull = this.layer.objectLayer.putTileAt(TILES.SKULL, room.centerX - Math.floor(Math.random() * (3 - 1) + 1), room.centerY + Math.floor(Math.random() * (3 - 1) + 1));
+         ReplaceTileIfInDoorway(this.layer.objectLayer, room, skull);
+          const box1 = this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX - Math.floor(Math.random() * (3 - 1) + 1), room.centerY + Math.floor(Math.random() * (3 - 1) + 1));
+          ReplaceTileIfInDoorway(this.layer.objectLayer, room, box1);
+          const box2 = this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (3 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+          ReplaceTileIfInDoorway(this.layer.objectLayer, room, box2);
         } else {
-          this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX - Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
-          this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+          const box1 = this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX - Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+          ReplaceTileIfInDoorway(this.layer.objectLayer, room, box1);
+          const box2 = this.layer.objectLayer.putTilesAt(TILES.BOX, room.centerX + Math.floor(Math.random() * (5 - 1) + 1), room.centerY - Math.floor(Math.random() * (3 - 1) + 1));
+          ReplaceTileIfInDoorway(this.layer.objectLayer, room, box2);
         }
       }
     });
   }
 
+}
+
+const ReplaceTileIfInDoorway = (objectLayer, room, tile) => {
+  for (let i = 0; i < room.getDoorLocations().length ; i++) {
+    if (room.getDoorLocations()[i].y === tile.y) {
+      if (tile.x === room.getDoorLocations()[i].x || tile.x === room.getDoorLocations()[i].x+1 || tile.x === room.getDoorLocations()[i].x-1){
+        objectLayer.removeTileAt(tile.x, tile.y);
+      }
+    }
+    if (room.getDoorLocations()[i].x === tile.x) {
+      if (tile.y === room.getDoorLocations()[i].y || tile.y === room.getDoorLocations()[i].y+1 || tile.y === room.getDoorLocations()[i].y-1){
+        objectLayer.removeTileAt(tile.x, tile.y);
+      }
+    }
+  }
 }
