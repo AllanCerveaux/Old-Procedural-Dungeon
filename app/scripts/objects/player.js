@@ -15,6 +15,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.moving = false;
     this.attacking = false;
     this.facing = 'right';
+    this.lastDirection = 'right';
 
     const anims = scene.anims;
     anims.create({
@@ -70,12 +71,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     if(keys.left.isDown) {
       this.facing = 'left';
+      this.lastDirection = 'left';
       playerBox.body.setVelocityX(-speed);
       sprite.setFlip(true);
       this.playerBox.body.offset.x = 0;
       this.activeWeapon.sprite.x = 7;
     } else if (keys.right.isDown){
       this.facing = 'right';
+      this.lastDirection = 'right';
       playerBox.body.setVelocityX(speed);
       sprite.setFlip(false);
       this.playerBox.body.offset.x = 0;
@@ -84,8 +87,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     if(keys.up.isDown) {
+      this.lastDirection = 'down';
       playerBox.body.setVelocityY(-speed);
     } else if(keys.down.isDown) {
+      this.lastDirection = 'up';
       playerBox.body.setVelocityY(speed);
     }
 
