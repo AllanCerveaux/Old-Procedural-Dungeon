@@ -35,12 +35,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     this.sprite = scene.add
       .sprite(0,0,'knight-idle', 0)
-      .setSize(12, 15);
+      .setSize(11, 11);
 
     this.sprite.anims.play('player-idle');
 
     this.playerBox = scene.add.container(x, y);
-    this.playerBox.setSize(12, 15);
+    this.playerBox.setSize(11, 11);
     scene.physics.world.enable(this.playerBox);
     this.playerBox.add(this.sprite);
     this.playerBox.body.offset.y = 2;
