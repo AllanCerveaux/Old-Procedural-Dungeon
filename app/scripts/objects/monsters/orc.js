@@ -18,6 +18,6 @@ export default class Orc extends Monster{
   }
 
   destroy() {
-    this.destroy();
+    this.body.destroy();
   }
 }

@@ -62,8 +62,8 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.scene.physics.world.enable(this.sprite);
     // End of change
 
-    player.playerBox.add(this.sprite);
-    this.sprite.anims.play(this.animKey, false, player.sprite.anims.currentFrame.index);
+    // player.body.add(this.sprite);
+    //this.sprite.anims.play(this.animKey, false, player.sprite.anims.currentFrame.index);
   }
   
   update() {

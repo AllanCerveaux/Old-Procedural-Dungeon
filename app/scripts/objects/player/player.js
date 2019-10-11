@@ -80,6 +80,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
   
   destroy() {
-    this.sprite.destroy();
+    this.body.destroy();
   }
 }
