@@ -127,9 +127,9 @@ export default class DungeonScene extends Phaser.Scene {
     });
 
     
-    this.physics.add.collider(this.player.playerBox, this.groundLayer);
-    this.physics.add.collider(this.player.playerBox, this.objectLayer);
-    this.physics.add.collider(this.player.playerBox, this.enemies);
+    this.physics.add.collider(this.player, this.groundLayer);
+    this.physics.add.collider(this.player, this.objectLayer);
+    this.physics.add.collider(this.player, this.enemies);
     /* 
     * Check for collision overlap between weapons and objectLayer
     * TODO: add breaking object animation, add breaking object sound
@@ -155,7 +155,7 @@ export default class DungeonScene extends Phaser.Scene {
 
     const camera = this.cameras.main;
     camera.setZoom(2);
-    camera.startFollow(this.player.playerBox);
+    camera.startFollow(this.player);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
     this.add
@@ -173,7 +173,7 @@ export default class DungeonScene extends Phaser.Scene {
     this.lights.setAmbientColor(0x222222);
     this.groundLayer.setPipeline('Light2D');
     this.objectLayer.setPipeline('Light2D');
-    this.lightPoint = this.lights.addLight(this.player.playerBox.x, this.player.playerBox.y, 80, 0xedcf6d, 3);
+    this.lightPoint = this.lights.addLight(this.player.x, this.player.y, 80, 0xedcf6d, 3);
     this.tweens.add({
       targets: this.lightPoint,
       intensity: {
@@ -206,11 +206,11 @@ export default class DungeonScene extends Phaser.Scene {
   update(/* t, dt */){
     if (this.hasPlayerReachedStairs) return;
     this.player.update();
-    this.lightPoint.x = this.player.playerBox.x;
-    this.lightPoint.y = this.player.playerBox.y;
+    this.lightPoint.x = this.player.x;
+    this.lightPoint.y = this.player.y;
 
-    const playerTileX = this.groundLayer.worldToTileX(this.player.playerBox.x);
-    const playerTileY = this.groundLayer.worldToTileY(this.player.playerBox.y);
+    const playerTileX = this.groundLayer.worldToTileX(this.player.x);
+    const playerTileY = this.groundLayer.worldToTileY(this.player.y);
     const playerRoom = this.dungeon.getRoomAt(playerTileX, playerTileY);
 
     // handle visibility of enemies,
