@@ -88,6 +88,19 @@ export default class SplashScreen extends Phaser.Scene {
       frameRate: 4,
       repeat: -1
     });
+    this.anims.create({
+      key: 'player-idle',
+      frames: this.anims.generateFrameNumbers('knight-idle', {start: 0, end: 19}),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'player-run',
+      frames: this.anims.generateFrameNumbers('knight-run', {start: 0, end: 3}),
+      frameRate: 8,
+      repeat: -1
+    });
   }
 
   //  ------------------------------------------------------------------------
