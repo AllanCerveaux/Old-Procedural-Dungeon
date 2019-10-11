@@ -1,39 +1,43 @@
 export default class Monster extends Phaser.GameObjects.Sprite {
-  /**
-     *  Monster base class to extend for individual monster sprites.
-     *
-     *  @constructor
-     *  @class Monster
-     *  @extends Phaser.GameObjects.Sprite
-     *  @param {Phaser.Scene} scene - The scene that owns this sprite.
-     *  @param {object} monsterInfo - JSON object with details of the monster to be created.
-     *      monsterInfo.animKey = animation key.
-     *      monsterInfo.spriteStr = sprite reference.
-     */
-
-  constructor(scene, monsterInfo, x, y) {
-    super(scene, 'monster');
-    this.animKey = monsterInfo.animStr;
-    this.spriteKey = monsterInfo.spriteStr;
+  constructor(scene, x, y, config) {
+    super(scene, x, y, config.key);
+    this.config = config
     this.scene = scene;
-    const anims = scene.anims;
-    anims.create({
-      key: this.animKey,
-      frames: anims.generateFrameNumbers(this.spriteKey, {start: 0, end: 16}),
-      frameRate: 4,
-      repeat: -1
-    });
-
-    this.sprite = scene.add.sprite(x, y, this.spriteKey, 0);
-    this.sprite.anims.play(this.animKey);
-    
-      
+    this.lastAnim = null;
+    this.alpha = 0;
+    this.scene.physics.world.enable(this);
+    this.scene.add.existing(this);
+    this.anims.play(config.anim.idle, true);
+    this.setTint(0xF13D43); // add a tint to differenciate monster orc
   }
 
-  update() {
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+    if (this.active) {
+      let animationName;
+      const player = this.scene.player;
+      if (Phaser.Math.Distance.Between(player.x, player.y, this.x, this.y) <= 60) {
+        const targetAngle = Phaser.Math.Angle.Between(
+          this.x, this.y,
+          player.x, player.y,
+        );
+        this.body.velocity.x = Math.cos(targetAngle) * 30;
+        this.body.velocity.y = Math.sin(targetAngle) * 30;
+        animationName = this.config.anim.walk;
+      } else {
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+        animationName = this.config.anim.idle;
+      }
+
+      if (this.lastAnim !== animationName) {
+        this.lastAnim = animationName;
+        this.animate(animationName, true);
+      }
+    }
   }
 
-  destroy() {
-    this.sprite.destroy();
+  animate(str) {
+    this.anims.play(str, true);
   }
 }

@@ -1,6 +1,6 @@
 import Monster from './monster';
 
-export default class Orc extends Monster {
+export default class Orc extends Monster{
   /**
   *  Orc monster class.
   *
@@ -13,16 +13,11 @@ export default class Orc extends Monster {
   *      monsterInfo.spriteStr = sprite reference.
   */
 
-  constructor(scene, x, y) {
-    super(scene, {animStr: 'orc-idle-anim', spriteStr: 'orc-idle'}, x, y); 
-
-  }
-
-  update(/*t, dt*/) {
-
+  constructor(scene, x, y, config) {
+    super(scene, x, y, config);
   }
 
   destroy() {
-    this.sprite.destroy();
+    this.destroy();
   }
 }

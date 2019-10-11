@@ -6,7 +6,6 @@ import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
 // import { runInThisContext } from 'vm';
 import Orc from '../objects/monsters/orc';
-import Orc2 from '../objects/monsters/Orc2';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -112,7 +111,6 @@ export default class DungeonScene extends Phaser.Scene {
     this.weapon.setDepth(10);
 
     this.spawnEnemies(rooms, map);
-    this.spawnOrc2(rooms, map);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
       this.objectLayer.setTileIndexCallback(TILES.STAIRS, null);
@@ -129,6 +127,7 @@ export default class DungeonScene extends Phaser.Scene {
     
     this.physics.add.collider(this.player, this.groundLayer);
     this.physics.add.collider(this.player, this.objectLayer);
+    this.physics.add.collider(this.enemies, this.objectLayer);
     this.physics.add.collider(this.player, this.enemies);
     /* 
     * Check for collision overlap between weapons and objectLayer
@@ -148,7 +147,7 @@ export default class DungeonScene extends Phaser.Scene {
         return;
       }
       if (obj.index > 0 && this.player.attacking) {
-        this.objectLayer.removeTileAt(obj.x, obj.y);
+        this.objectLayer.removeTileAt(obj.x, obj.y);61
       }
     }, null, this);
 
@@ -219,30 +218,11 @@ export default class DungeonScene extends Phaser.Scene {
     this.tilemapVisibility.setActiveRoom(playerRoom);
   }
 
-  //Spawns up to four enemies per room. Change maxEnemies parameter to tweak.
-  spawnEnemies(rooms, map) {
-    this.enemies = [];
-    const maxEnemies = 4;
-
-    rooms.forEach(room => {
-
-      const enemyCount = Math.floor(Math.random() * maxEnemies);
-      for (let i = 0; i < enemyCount; i++) {
-        
-        let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
-        let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
-
-        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4);
-        this.enemies.push(enemy);
-      }
-    });
-  }
-
   /* Like SpawnEnemies but only one class
   * I didn't succeed to get it working with monster and orc, so i made like i do usually
   * Orc2 are red tinted to see difference
   */
-  spawnOrc2(rooms, map) {
+  spawnEnemies(rooms, map) {
     this.enemies = [];
     const maxEnemies = 4;
     rooms.forEach((room) => {
@@ -252,8 +232,12 @@ export default class DungeonScene extends Phaser.Scene {
         let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
         let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
 
-        let enemy = new Orc2(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
+        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
           key: 'orc-idle',
+          anim: {
+            walk: 'orcWalk',
+            idle: 'orcIdle'
+          }
         });
         this.enemies.push(enemy);
       }
