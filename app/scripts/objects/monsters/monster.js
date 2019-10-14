@@ -40,4 +40,8 @@ export default class Monster extends Phaser.GameObjects.Sprite {
   animate(str) {
     this.anims.play(str, true);
   }
+
+  die() {
+    this.destroy();
+  }
 }

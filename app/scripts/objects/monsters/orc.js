@@ -16,8 +16,4 @@ export default class Orc extends Monster{
   constructor(scene, x, y, config) {
     super(scene, x, y, config);
   }
-
-  destroy() {
-    this.body.destroy();
-  }
 }
