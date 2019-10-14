@@ -89,8 +89,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       default:
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
-        this.body.setSize(this.config.size.x, this.config.size.y);
-        this.body.offset.y = 1;
+        this.body.setSize(0, 0);
         this.angle = 180;
     }
     this.anims.play(this.config.anim, true);
