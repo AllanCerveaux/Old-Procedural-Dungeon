@@ -15,10 +15,11 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
   //If the weapon is being left in the overworld, follow this with weapon.dropWeapon.
   constructor(scene, x, y, config) {
     super(scene, x, y, config.key);
+    this.config = config;
     this.scene = scene;
     this.scene.add.existing(this);
     scene.physics.world.enable(this);
-    this.body.setSize(5, 12, 8)
+    this.body.setSize(this.config.size.x, this.config.size.y)
     this.body.offset.y = 1;
     this.setDepth(11);
   }
@@ -31,16 +32,17 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
      * Stop attacking function.
      * This returns the weapon to the player's side when not in use and is called in player.update when the space bar is released.
      */
-  sheathe(player) {
-    if (player.facing === 'right') {
-      this.x = player.x - 7;
-      this.y = player.y - 3;
+  sheathe() {
+    const { x, y, lastDirection } = this.scene.player;
+    if (lastDirection === 'right') {
+      this.x = x - 7;
+      this.y = y - 3;
       this.angle = 0;
       this.setFlipX(true);
     }
     else {
-      this.x = player.x + 7;
-      this.y = player.y - 3;
+      this.x = x + 7;
+      this.y = y - 3;
       this.angle = 0;
       this.setFlipX(false);
     }
@@ -51,14 +53,13 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
   }
 
   attack() {
-    const { x, y } = this.scene.player;
-    console.log(this.scene.player.facing);
-    switch (this.scene.player.facing) {
+    const { x, y, facing } = this.scene.player;
+    switch (facing) {
       case 'right':
         this.x = x + 13;
         this.y = y;
         this.angle = 90;
-        this.body.setSize(12, 5);
+        this.body.setSize(this.config.size.y, this.config.size.x);
         this.body.offset.x = 3;
         this.setFlipX(true);
         break;
@@ -66,7 +67,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.x = x - 13;
         this.y = y ;
         this.angle = 270;
-        this.body.setSize(12, 5);
+        this.body.setSize(this.config.size.y, this.config.size.x);
         this.body.offset.x = -5;
         this.setFlipX(false);
         break;
@@ -74,7 +75,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.x = x;
         this.y = y - 13;
         this.angle = 0;
-        this.body.setSize(5, 12);
+        this.body.setSize(this.config.size.x, this.config.size.y);
         this.body.offset.y = 1;
         this.setFlipX(false);
         break;
@@ -82,17 +83,17 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.x = x;
         this.y = y + 13;
         this.angle = 180;
-        this.body.setSize(5, 12);
+        this.body.setSize(this.config.size.x, this.config.size.y);
         this.body.offset.y = 10;
         break;
       default:
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
-        this.body.setSize(5, 12);
+        this.body.setSize(this.config.size.x, this.config.size.y);
         this.body.offset.y = 1;
         this.angle = 180;
     }
-    this.anims.play('attackSword', true);
+    this.anims.play(this.config.anim, true);
   }
 
   /* Places a sprite on the ground at the specified x and y values.
@@ -104,7 +105,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.sprite = scene.add
       .sprite(x, y, this.spriteKey, 0);
   
-    // this.sprite.anims.play(this.animKey);
+    this.sprite.anims.play(this.config.anim);
   }
 
   /* Picks up a weapon from the ground.
@@ -120,7 +121,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.scene.physics.world.enable(this);
     player.setActiveWeapon(this);
 
-    this.anims.play('sword-basic-anim', false, player.anims.currentFrame.index);
+    this.anims.play(this.config.anim, false, player.anims.currentFrame.index);
   }
   
   update() {
