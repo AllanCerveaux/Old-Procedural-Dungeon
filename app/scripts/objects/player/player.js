@@ -16,10 +16,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this);
     this.setFrame(0);
     this.anims.play('player-idle');
-
     this.body.setSize(10, 13);
     this.body.offset.y = 6
-
     this.moving = false;
     this.attacking = false;
     this.facing = 'right';
@@ -50,9 +48,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     if(keys.up.isDown) {
       this.lastDirection = 'down';
+      this.facing = 'top';
       this.body.setVelocityY(-speed);
     } else if(keys.down.isDown) {
       this.lastDirection = 'up';
+      this.facing = 'bottom';
       this.body.setVelocityY(speed);
     }
 
@@ -64,6 +64,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else if (this.moving) {
       this.moving = false;
       this.anims.play('player-idle', true);
+    }
+    if (keys.space.isDown) {
+      this.attacking = true;
+      this.scene.weapon.attack(this);
+    } else {
+      this.attacking = false;
+      this.facing = "top"
+      this.scene.weapon.sheathe(this);
     }
   }
 

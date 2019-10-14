@@ -13,18 +13,86 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
   //If you would like the player to hold the weapon, follow this with weapon.pickupWeapon.
   //If the weapon is being left in the overworld, follow this with weapon.dropWeapon.
-  constructor(scene, weaponInfo) {
-    super(scene, 'weapon');
-    this.animKey = weaponInfo.animStr;
-    this.spriteKey = weaponInfo.spriteStr;
+  constructor(scene, x, y, config) {
+    super(scene, x, y, config.key);
     this.scene = scene;
-    const anims = scene.anims;
-    anims.create({
-      key: this.animKey,
-      frames: anims.generateFrameNumbers(this.spriteKey, {start: 0, end: 10}),
-      frameRate: 4,
-      repeat: -1
-    });
+    this.scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.body.setSize(5, 12, 8)
+    this.body.offset.y = 1;
+    this.setDepth(11);
+  }
+
+  preUpdate(t, dt){
+    super.preUpdate(t, dt);
+  }
+
+    /* 
+     * Stop attacking function.
+     * This returns the weapon to the player's side when not in use and is called in player.update when the space bar is released.
+     */
+  sheathe(player) {
+    if (player.facing === 'right') {
+      this.x = player.x - 7;
+      this.y = player.y - 3;
+      this.angle = 0;
+      this.setFlipX(true);
+    }
+    else {
+      this.x = player.x + 7;
+      this.y = player.y - 3;
+      this.angle = 0;
+      this.setFlipX(false);
+    }
+    if(!this.anims.isPlaying){
+      return;
+    }
+    this.anims.stop();
+  }
+
+  attack() {
+    const { x, y } = this.scene.player;
+    console.log(this.scene.player.facing);
+    switch (this.scene.player.facing) {
+      case 'right':
+        this.x = x + 13;
+        this.y = y;
+        this.angle = 90;
+        this.body.setSize(12, 5);
+        this.body.offset.x = 3;
+        this.setFlipX(true);
+        break;
+      case 'left':
+        this.x = x - 13;
+        this.y = y ;
+        this.angle = 270;
+        this.body.setSize(12, 5);
+        this.body.offset.x = -5;
+        this.setFlipX(false);
+        break;
+      case 'top':
+        this.x = x;
+        this.y = y - 13;
+        this.angle = 0;
+        this.body.setSize(5, 12);
+        this.body.offset.y = 1;
+        this.setFlipX(false);
+        break;
+      case 'bottom':
+        this.x = x;
+        this.y = y + 13;
+        this.angle = 180;
+        this.body.setSize(5, 12);
+        this.body.offset.y = 10;
+        break;
+      default:
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+        this.body.setSize(5, 12);
+        this.body.offset.y = 1;
+        this.angle = 180;
+    }
+    this.anims.play('attackSword', true);
   }
 
   /* Places a sprite on the ground at the specified x and y values.
@@ -36,7 +104,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.sprite = scene.add
       .sprite(x, y, this.spriteKey, 0);
   
-    this.sprite.anims.play(this.animKey);
+    // this.sprite.anims.play(this.animKey);
   }
 
   /* Picks up a weapon from the ground.
@@ -45,32 +113,21 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     *        If you plan to add another weapon, please look for a way to generalize those values.
     */
   pickupWeapon(player) {
-    if (player.getActiveWeapon())
+    if (player.getActiveWeapon()){
       player.getActiveWeapon.destroy();
+    }
+    this.scene.add.existing(this);
     this.scene.physics.world.enable(this);
     player.setActiveWeapon(this);
-    this.sprite = this.scene.add
-      .sprite(0, 0, this.spriteKey, 0)
-      .setScale(0.7);
-    this.sprite.x = -7;
-    this.sprite.y = 0;
 
-    /* Change by BlunT76
-    * added a body to this.sprite so we can check collision
-    * between the swords and other sprites or layer
-    */
-    this.scene.physics.world.enable(this.sprite);
-    // End of change
-
-    // player.body.add(this.sprite);
-    //this.sprite.anims.play(this.animKey, false, player.sprite.anims.currentFrame.index);
+    this.anims.play('sword-basic-anim', false, player.anims.currentFrame.index);
   }
   
   update() {
   }
   
   destroy() {
-    this.sprite.destroy();
+    this.body.destroy();
   }
 }
   
