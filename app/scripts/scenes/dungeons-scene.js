@@ -1,10 +1,12 @@
 import Dungeon from '@mikewesthad/dungeon';
-import Player from '../objects/player/player';
-import Sword_Basic from '../objects/weapons/sword-basic';
-import TILES from '../objects/tiles-mapping';
 import TilemapVisibility from '../objects/tilemap-visibility';
 import LevelGenerator from '../plugins/level-generator';
+import TILES from '../objects/tiles-mapping';
+
+import Player from '../objects/player/player';
 import Orc from '../objects/monsters/orc';
+import SwordBasic from '../objects/weapons/sword-basic';
+import Weapon from '../objects/weapons/weapon';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -102,13 +104,14 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
+
     this.player = new Player(this, x, y);
     this.player.setDepth(10);
 
-    this.weapon = new Sword_Basic(this);
+    this.weapon = new SwordBasic(this, this.player.x, this.player.y);
     this.weapon.pickupWeapon(this.player);
     this.weapon.setDepth(10);
-
+    
     this.spawnEnemies(rooms, map);
 
     this.objectLayer.setTileIndexCallback(TILES.STAIRS, () => {
@@ -126,29 +129,29 @@ export default class DungeonScene extends Phaser.Scene {
     
     this.physics.add.collider(this.player, this.groundLayer);
     this.physics.add.collider(this.player, this.objectLayer);
-    this.physics.add.collider(this.enemies, this.objectLayer);
     this.physics.add.collider(this.player, this.enemies);
+
     /* 
     * Check for collision overlap between weapons and objectLayer
     * TODO: add breaking object animation, add breaking object sound
     */
-    this.physics.add.overlap(this.player.activeWeapon.sprite, this.objectLayer, (player, obj) => {
+    // this.physics.add.overlap(this.player.activeWeapon.sprite, this.objectLayer, (player, obj) => {
       
-      if (obj.index === 398 && this.player.attacking) {
-        // Crate top part, dont do anything
-        return;
-      }
-      if (obj.index === 430 && this.player.attacking) {
-        // This is a crate, remove top part too
-        this.objectLayer.removeTileAt(obj.x, obj.y - 1);
-        this.objectLayer.removeTileAt(obj.x, obj.y);
+    //   if (obj.index === 398 && this.player.attacking) {
+    //     // Crate top part, dont do anything
+    //     return;
+    //   }
+    //   if (obj.index === 430 && this.player.attacking) {
+    //     // This is a crate, remove top part too
+    //     this.objectLayer.removeTileAt(obj.x, obj.y - 1);
+    //     this.objectLayer.removeTileAt(obj.x, obj.y);
 
-        return;
-      }
-      if (obj.index > 0 && this.player.attacking) {
-        this.objectLayer.removeTileAt(obj.x, obj.y);61
-      }
-    }, null, this);
+    //     return;
+    //   }
+    //   if (obj.index > 0 && this.player.attacking) {
+    //     this.objectLayer.removeTileAt(obj.x, obj.y);61
+    //   }
+    // }, null, this);
 
 
     const camera = this.cameras.main;
@@ -245,12 +248,14 @@ export default class DungeonScene extends Phaser.Scene {
     * Check for collision overlap between weapons and monsters
     * TODO: add breaking object animation, add breaking object sound
     */
-    this.physics.add.overlap(this.player.activeWeapon.sprite, this.enemies, (weapon, enemy) => {
+   console.log(this.player.getActiveWeapon());
+    this.physics.add.overlap(this.player.getActiveWeapon(), this.enemies, (weapon, enemy) => {
       if (this.player.attacking) {
         enemy.destroy();
       }
     }, null, this);
     this.physics.add.collider(this.enemies, this.groundLayer);
+    this.physics.add.collider(this.enemies, this.objectLayer);
   }
 
   checkEnemiesVisibility(playerRoom) {
