@@ -101,6 +101,13 @@ export default class SplashScreen extends Phaser.Scene {
       frameRate: 8,
       repeat: -1
     });
+
+    this.anims.create({
+      key: 'sword-basic-anim',
+      frames: this.anims.generateFrameNumbers('sword-basic', {start: 0, end: 10}),
+      frameRate: 4,
+      repeat: -1
+    });
   }
 
   //  ------------------------------------------------------------------------
