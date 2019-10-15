@@ -6,7 +6,6 @@ import TILES from '../objects/tiles-mapping';
 import Player from '../objects/player/player';
 import Orc from '../objects/monsters/orc';
 import SwordBasic from '../objects/weapons/sword-basic';
-import Weapon from '../objects/weapons/weapon';
 
 export default class DungeonScene extends Phaser.Scene {
   /**
@@ -248,7 +247,6 @@ export default class DungeonScene extends Phaser.Scene {
     * Check for collision overlap between weapons and monsters
     * TODO: add breaking object animation, add breaking object sound
     */
-   console.log(this.player.getActiveWeapon());
     this.physics.add.overlap(this.player.getActiveWeapon(), this.enemies, (weapon, enemy) => {
       if (this.player.attacking) {
         enemy.destroy();
