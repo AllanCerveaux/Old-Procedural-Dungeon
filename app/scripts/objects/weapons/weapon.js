@@ -19,7 +19,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.scene = scene;
     this.scene.add.existing(this);
     scene.physics.world.enable(this);
-    this.body.setSize(this.config.size.x, this.config.size.y)
+    this.body.setSize(this.config.size.x, this.config.size.y);
     this.body.offset.y = 1;
     this.setDepth(11);
   }
@@ -28,10 +28,10 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     super.preUpdate(t, dt);
   }
 
-    /* 
-     * Stop attacking function.
-     * This returns the weapon to the player's side when not in use and is called in player.update when the space bar is released.
-     */
+  /* 
+   * Stop attacking function.
+   * This returns the weapon to the player's side when not in use and is called in player.update when the space bar is released.
+   */
   sheathe() {
     const { x, y, lastDirection } = this.scene.player;
     if (lastDirection === 'right') {
@@ -55,42 +55,42 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
   attack() {
     const { x, y, facing } = this.scene.player;
     switch (facing) {
-      case 'right':
-        this.x = x + 13;
-        this.y = y;
-        this.angle = 90;
-        this.body.setSize(this.config.size.y, this.config.size.x);
-        this.body.offset.x = 3;
-        this.setFlipX(true);
-        break;
-      case 'left':
-        this.x = x - 13;
-        this.y = y ;
-        this.angle = 270;
-        this.body.setSize(this.config.size.y, this.config.size.x);
-        this.body.offset.x = -5;
-        this.setFlipX(false);
-        break;
-      case 'top':
-        this.x = x;
-        this.y = y - 13;
-        this.angle = 0;
-        this.body.setSize(this.config.size.x, this.config.size.y);
-        this.body.offset.y = 1;
-        this.setFlipX(false);
-        break;
-      case 'bottom':
-        this.x = x;
-        this.y = y + 13;
-        this.angle = 180;
-        this.body.setSize(this.config.size.x, this.config.size.y);
-        this.body.offset.y = 10;
-        break;
-      default:
-        this.body.velocity.x = 0;
-        this.body.velocity.y = 0;
-        this.body.setSize(0, 0);
-        this.angle = 180;
+    case 'right':
+      this.x = x + 13;
+      this.y = y;
+      this.angle = 90;
+      this.body.setSize(this.config.size.y, this.config.size.x);
+      this.body.offset.x = 3;
+      this.setFlipX(true);
+      break;
+    case 'left':
+      this.x = x - 13;
+      this.y = y ;
+      this.angle = 270;
+      this.body.setSize(this.config.size.y, this.config.size.x);
+      this.body.offset.x = -5;
+      this.setFlipX(false);
+      break;
+    case 'top':
+      this.x = x;
+      this.y = y - 13;
+      this.angle = 0;
+      this.body.setSize(this.config.size.x, this.config.size.y);
+      this.body.offset.y = 1;
+      this.setFlipX(false);
+      break;
+    case 'bottom':
+      this.x = x;
+      this.y = y + 13;
+      this.angle = 180;
+      this.body.setSize(this.config.size.x, this.config.size.y);
+      this.body.offset.y = 10;
+      break;
+    default:
+      this.body.velocity.x = 0;
+      this.body.velocity.y = 0;
+      this.body.setSize(0, 0);
+      this.angle = 180;
     }
     this.anims.play(this.config.anim, true);
   }

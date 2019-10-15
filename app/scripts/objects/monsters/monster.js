@@ -1,7 +1,7 @@
 export default class Monster extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, config) {
     super(scene, x, y, config.key);
-    this.config = config
+    this.config = config;
     this.scene = scene;
     this.lastAnim = null;
     this.alpha = 0;

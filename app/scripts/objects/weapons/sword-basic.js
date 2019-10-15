@@ -12,10 +12,10 @@ export default class SwordBasic extends Weapon {
 
   constructor(scene, x, y) {
     super(scene, x, y, {
-        anim: 'sword-basic-anim', 
-        key: 'sword-basic', 
-        size: {x: 5, y:12}, 
-      });    
+      anim: 'sword-basic-anim', 
+      key: 'sword-basic', 
+      size: {x: 5, y:12}, 
+    });
   }
   
   update() {
