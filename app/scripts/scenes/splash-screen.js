@@ -63,7 +63,6 @@ export default class SplashScreen extends Phaser.Scene {
       frameWidth: 16,
       frameHeight: 16
     });
-
   }
 
   /**

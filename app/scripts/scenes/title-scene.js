@@ -84,10 +84,10 @@ export default class TitleScene extends Phaser.Scene {
       }
     });
 
-    const platypus = this.add.text(config.width/2 - 70, config.height - 20, 'Made by Platypus', {
+    this.add.text(config.width/2 - 70, config.height - 20, 'Made by Platypus', {
       font: '12px Arial',
       color: 'white',
-      backgroundColor: "rgba(0,0,0,0.7)",
+      backgroundColor: 'rgba(0,0,0,0.7)',
       align: 'center',
       padding: {
         left: 10,
@@ -95,7 +95,7 @@ export default class TitleScene extends Phaser.Scene {
         top: 3,
         bottom: 3
       }
-    })
+    });
 
     github.setInteractive().on('pointerup', function(/*pointer*/) {
       window.open('https://github.com/AllanCerveaux/Procedural-Dungeon', '_blank');
