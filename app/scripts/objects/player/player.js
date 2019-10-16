@@ -90,7 +90,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.activeWeapon = weapon;
   }
   
-  destroy() {
-    this.body.destroy();
+  die() {
+    this.destroy();
   }
 }
