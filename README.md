@@ -37,4 +37,5 @@ Add your github profile if you contributing `[name](link-to-github-profile)`
 - [Nicole Brooks](https://github.com/N-Brooks)
 - [BlunT76](https://github.com/BlunT76)
 - [LauDev](https://github.com/ldevernay)
+- [Timote](https://github.com/timotheesterle)
 - [erikbfeeley](https://github.com/erikbfeeley)
