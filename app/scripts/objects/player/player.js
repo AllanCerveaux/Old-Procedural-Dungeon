@@ -16,8 +16,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
     scene.physics.world.enable(this);
     this.setFrame(0);
     this.anims.play('player-idle');
-    this.body.setSize(10, 13);
-    this.body.offset.y = 6;
+    this.body.setSize(10, 10);
+    this.body.offset.y = 13;
+    this.body.offset.x = 10;
     this.moving = false;
     this.attacking = false;
     this.facing = 'right';
