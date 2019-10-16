@@ -32,6 +32,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     const speed = 100;
 
     this.body.setVelocity(0);
+    
     if(keys.left.isDown) {
       this.facing = 'left';
       this.lastDirection = 'left';
