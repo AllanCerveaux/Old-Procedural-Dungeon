@@ -1,3 +1,6 @@
+import { assets } from './load-assets';
+import { anims } from './load-anims';
+
 export default class SplashScreen extends Phaser.Scene {
   /**
    *  Takes care of loading the main game assets, including textures, tile
@@ -38,31 +41,10 @@ export default class SplashScreen extends Phaser.Scene {
     this.load.audio('musicCalm', ['./sound/MusicCalm.mp3'] );
     this.load.audio('musicIntense', ['./sound/MusicIntense.mp3']);
     this.load.audio('musicYouDied', ['./sound/MusicYouDied.mp3']);
+    
     this.load.image('bg', 'title-map.png');
     this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
-    
-    this.load.spritesheet('sword-basic', 'spritesheets/weapons/sword_basic.png', {
-      frameWidth: 10,
-      frameHeight: 23
-    });
-
-    this.load.spritesheet('knight_f_idle', 'spritesheets/hereos/knight/knight_f_idle.png', {
-      frameWidth: 16,
-      frameHeight: 28
-    });
-
-    this.load.spritesheet('knight_f_run', 'spritesheets/hereos/knight/knight_f_run.png', {
-      frameWidth: 16,
-      frameHeight: 28
-    });
-    this.load.spritesheet('tiny_zombie', 'spritesheets/ennemies/monsters/tiny_zombie_idle.png',{
-      frameWidth: 16,
-      frameHeight: 16
-    });
-    this.load.spritesheet('tiny_zombie_run', 'spritesheets/ennemies/monsters/tiny_zombie_run.png',{
-      frameWidth: 16,
-      frameHeight: 16
-    });
+    assets(this);
   }
 
   /**
@@ -75,38 +57,7 @@ export default class SplashScreen extends Phaser.Scene {
     //  We have nothing left to do here. Start the next scene.
     //this.scene.start('DungeonScene');
     this.scene.start('TitleScene');
-    this.anims.create({
-      key: 'tiny_zombie_idle',
-      frames: this.anims.generateFrameNumbers('tiny_zombie', {start: 0, end: 3}),
-      frameRate: 4,
-      repeat: -1
-    });
-    this.anims.create({
-      key: 'tiny_zombie_walk',
-      frames: this.anims.generateFrameNumbers('tiny_zombie_run', {start: 0, end: 3}),
-      frameRate: 4,
-      repeat: -1
-    });
-    this.anims.create({
-      key: 'player_idle',
-      frames: this.anims.generateFrameNumbers('knight_f_idle', {start: 0, end: 3}),
-      frameRate: 4,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'player_run',
-      frames: this.anims.generateFrameNumbers('knight_f_run', {start: 0, end: 3}),
-      frameRate: 8,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'sword-basic-anim',
-      frames: this.anims.generateFrameNumbers('sword-basic', {start: 0, end: 10}),
-      frameRate: 4,
-      repeat: -1
-    });
+    anims(this);
   }
 
   //  ------------------------------------------------------------------------
