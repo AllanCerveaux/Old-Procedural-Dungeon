@@ -26,6 +26,32 @@ export const anims = (ctx) => (
   }),
 
   ctx.anims.create({
+    key: "elf_idle",
+    frames: ctx.anims.generateFrameNumbers('elf_f_idle', {start:0, end: 3}),
+    frameRate: 4,
+    repeat: -1
+  }),
+  ctx.anims.create({
+    key: "elf_run",
+    frames: ctx.anims.generateFrameNumbers('elf_f_run', {start:0, end: 3}),
+    frameRate: 8,
+    repeat: -1
+  }),
+
+  ctx.anims.create({
+    key: "wizzard_idle",
+    frames: ctx.anims.generateFrameNumbers('wizzard_f_idle', {start:0, end: 3}),
+    frameRate: 4,
+    repeat: -1
+  }),
+  ctx.anims.create({
+    key: "wizzard_run",
+    frames: ctx.anims.generateFrameNumbers('wizzard_f_run', {start:0, end: 3}),
+    frameRate: 8,
+    repeat: -1
+  }),
+
+  ctx.anims.create({
     key: 'sword-basic-anim',
     frames: ctx.anims.generateFrameNumbers('sword-basic', {start: 0, end: 10}),
     frameRate: 4,

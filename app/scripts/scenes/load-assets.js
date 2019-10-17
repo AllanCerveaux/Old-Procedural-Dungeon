@@ -19,6 +19,22 @@ export const assets = (ctx) => (
       frameWidth: 16,
       frameHeight: 28
     }),
+    ctx.load.spritesheet('elf_f_idle', 'spritesheets/hereos/elf/elf_f_idle.png', {
+      frameWidth: 16,
+      frameHeight: 28
+    }),
+    ctx.load.spritesheet('elf_f_run', 'spritesheets/hereos/elf/elf_f_run.png', {
+      frameWidth: 16,
+      frameHeight: 28
+    }),
+    ctx.load.spritesheet('wizzard_f_idle', 'spritesheets/hereos/wizzard/wizzard_f_idle.png', {
+      frameWidth: 16,
+      frameHeight: 28
+    }),
+    ctx.load.spritesheet('wizzard_f_run', 'spritesheets/hereos/wizzard/wizzard_f_run.png', {
+      frameWidth: 16,
+      frameHeight: 28
+    }),
     ctx.load.spritesheet('tiny_zombie', 'spritesheets/ennemies/monsters/tiny_zombie_idle.png',{
       frameWidth: 16,
       frameHeight: 16
