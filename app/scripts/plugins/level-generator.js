@@ -1,6 +1,4 @@
 import TILES from '../objects/tiles-mapping';
-import TilemapVisibility from '../objects/tilemap-visibility';
-import Dungeon from '@mikewesthad/dungeon';
 
 export default class LevelGenerator{
 
@@ -68,4 +66,5 @@ export default class LevelGenerator{
       }
     });
   }
+
 }

@@ -31,6 +31,12 @@ Phaser 3 and `generator-phaser-plus`.
 [t]: https://github.com/rblopes/generator-phaser-plus#a-brief-tutorial
 
 ## Contributor
-
->MarieCpll, je "contribue" à ton projet ^^
-add your github profile if you contributing `[name](link-to-github-profile)`
+Add your github profile if you contributing `[name](link-to-github-profile)
+`
+- [MulleyDev](https://github.com/mulleydev)
+- [Nicole Brooks](https://github.com/N-Brooks)
+- [BlunT76](https://github.com/BlunT76)
+- [LauDev](https://github.com/ldevernay)
+- [Timote](https://github.com/timotheesterle)
+- [erikbfeeley](https://github.com/erikbfeeley)
+- [MarieCpll](https://github.com/MarieCpll)

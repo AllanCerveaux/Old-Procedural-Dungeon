@@ -30,7 +30,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "@mikewesthad/dungeon": "^1.2.2",
-    "phaser": "^3.12.0"
+    "phaser": "3.12.0"
   },
   "private": true
 }

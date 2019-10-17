@@ -12,6 +12,9 @@ const TILES_MAPPING = {
     [398],
     [430]
   ],
+  WEAPONS: {
+    SWORD_BASIC: [[51], [83]]
+  },
   DOOR: 194,
   CHEST:431,
   SKULL: 462,
