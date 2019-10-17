@@ -9,13 +9,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
    *  @param {number} x - The horizontal coordinate relative to the scene viewport.
    *  @param {number} y - The vertical coordinate relative to the scene viewport.
    */
-  constructor(scene, x, y) {
-    super(scene, x, y, 'player');
+  constructor(scene, x, y, config) {
+    super(scene, x, y, config);
     this.scene = scene;
+    this.config = config;
     this.scene.add.existing(this);
     scene.physics.world.enable(this);
     this.setFrame(0);
-    this.anims.play('player_idle');
+    this.anims.play(this.config.idle);
     this.body.setSize(10, 12);
     this.body.offset.y = 16;
     this.body.offset.x = 12;
@@ -63,10 +64,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     if(keys.left.isDown || keys.right.isDown || keys.down.isDown || keys.up.isDown) {
       this.moving = true;
-      this.anims.play('player_run', true);
+      this.anims.play(this.config.walk, true);
     } else if (this.moving) {
       this.moving = false;
-      this.anims.play('player_idle', true);
+      this.anims.play(this.config.idle, true);
     }
     if (keys.space.isDown) {
       this.attacking = true;
