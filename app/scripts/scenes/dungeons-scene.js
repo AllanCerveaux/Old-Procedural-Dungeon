@@ -104,7 +104,7 @@ export default class DungeonScene extends Phaser.Scene {
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
 
-    this.player = new Player(this, x, y);
+    this.player = new Player(this, x, y, {idle: 'lizard_idle', walk: 'lizard_run'});
     this.player.setDepth(10);
 
     this.weapon = new SwordBasic(this, this.player.x, this.player.y);
