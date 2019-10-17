@@ -8,7 +8,6 @@ export default class Monster extends Phaser.GameObjects.Sprite {
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
     this.anims.play(config.anim.idle, true);
-    this.setTint(0xF13D43); // add a tint to differenciate monster orc
   }
 
   preUpdate(time, delta) {

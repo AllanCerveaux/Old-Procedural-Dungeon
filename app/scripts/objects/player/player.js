@@ -15,10 +15,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
     scene.physics.world.enable(this);
     this.setFrame(0);
-    this.anims.play('player-idle');
-    this.body.setSize(10, 10);
-    this.body.offset.y = 13;
-    this.body.offset.x = 10;
+    this.anims.play('player_idle');
+    this.body.setSize(10, 12);
+    this.body.offset.y = 16;
+    this.body.offset.x = 12;
     this.moving = false;
     this.attacking = false;
     this.facing = 'right';
@@ -63,10 +63,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     if(keys.left.isDown || keys.right.isDown || keys.down.isDown || keys.up.isDown) {
       this.moving = true;
-      this.anims.play('player-run', true);
+      this.anims.play('player_run', true);
     } else if (this.moving) {
       this.moving = false;
-      this.anims.play('player-idle', true);
+      this.anims.play('player_idle', true);
     }
     if (keys.space.isDown) {
       this.attacking = true;

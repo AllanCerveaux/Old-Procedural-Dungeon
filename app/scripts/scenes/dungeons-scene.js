@@ -236,8 +236,8 @@ export default class DungeonScene extends Phaser.Scene {
         let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
           key: 'orc-idle',
           anim: {
-            walk: 'orcWalk',
-            idle: 'orcIdle'
+            walk: 'tiny_zombie_walk',
+            idle: 'tiny_zombie_idle'
           }
         });
         this.enemies.push(enemy);

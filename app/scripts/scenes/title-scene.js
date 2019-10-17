@@ -48,8 +48,6 @@ export default class TitleScene extends Phaser.Scene {
     this.bgMap = this.physics.add.image(bgStartX, bgStartY, 'bg');
     this.bgMap.setVelocity(this.panVelocityX, this.panVelocityY);
     
-
-
     const title = this.add.text(0, 0, 'PROCEDURAL DUNGEON', {
       font: 'bold 50px Courier New',
       color: 'white'

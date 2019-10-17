@@ -36,13 +36,13 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     const { x, y, lastDirection } = this.scene.player;
     if (lastDirection === 'right') {
       this.x = x - 7;
-      this.y = y - 3;
+      this.y = y + 2;
       this.angle = 0;
       this.setFlipX(true);
     }
     else {
       this.x = x + 7;
-      this.y = y - 3;
+      this.y = y + 2;
       this.angle = 0;
       this.setFlipX(false);
     }
@@ -57,7 +57,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     switch (facing) {
     case 'right':
       this.x = x + 13;
-      this.y = y;
+      this.y = y + 2;
       this.angle = 90;
       this.body.setSize(this.config.size.y, this.config.size.x);
       this.body.offset.x = 3;
@@ -65,7 +65,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       break;
     case 'left':
       this.x = x - 13;
-      this.y = y ;
+      this.y = y + 2;
       this.angle = 270;
       this.body.setSize(this.config.size.y, this.config.size.x);
       this.body.offset.x = -5;
@@ -73,7 +73,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       break;
     case 'top':
       this.x = x;
-      this.y = y - 13;
+      this.y = y - 9;
       this.angle = 0;
       this.body.setSize(this.config.size.x, this.config.size.y);
       this.body.offset.y = 1;
