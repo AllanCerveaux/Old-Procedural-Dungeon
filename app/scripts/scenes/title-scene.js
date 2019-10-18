@@ -103,7 +103,7 @@ export default class TitleScene extends Phaser.Scene {
     //Clicking anywhere (except on the GitHub link) switches to Level 1.
     this.input.on('pointerup', function(pointer) {
       if (pointer.x < config.width - 130 && pointer.y < config.height - 20){
-        this.scene.scene.start('DungeonScene');
+        this.scene.scene.start('CharacterSelect');
         music.stop(); //Stops title music when Level 1 loads
       }
     });

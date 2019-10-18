@@ -75,7 +75,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else {
       this.attacking = false;
       this.facing = 'top';
-      this.scene.weapon.sheathe(this);
+      if(this.getActiveWeapon()){
+        this.scene.weapon.sheathe(this);
+      }
     }
   }
 

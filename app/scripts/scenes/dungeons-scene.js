@@ -26,8 +26,10 @@ export default class DungeonScene extends Phaser.Scene {
    *  @protected
    *  @param {object} [data={}] - Initialization parameters.
    */
-  init(/* data */) {
+  init(data) {
+    this.character = data.character;
   }
+  
 
   /**
    *  Used to declare game assets to be loaded using the loader plugin API.
@@ -46,6 +48,7 @@ export default class DungeonScene extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    console.log(this.character);
     this.level++;
     this.hasPlayerReachedStairs = false;
     
@@ -104,8 +107,8 @@ export default class DungeonScene extends Phaser.Scene {
     const playerRoom = startRoom;
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
-
-    this.player = new Player(this, x, y, {idle: 'wizzard_idle', walk: 'wizzard_run'});
+    
+    this.player = new Player(this, x, y, {idle: `${this.character}_idle`, walk: `${this.character}_walk`});
     this.player.setDepth(10);
 
     this.weapon = new SwordBasic(this, this.player.x, this.player.y);

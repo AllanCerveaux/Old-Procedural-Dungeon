@@ -1,8 +1,7 @@
 export const assets = (ctx) => (
-  	ctx.load.spritesheet('sword-basic', 'spritesheets/weapons/sword_basic.png', {
-      frameWidth: 10,
-      frameHeight: 23
-    }),
+    ////////////////////////
+    // Load heroes assets //
+    ////////////////////////
     ctx.load.spritesheet('knight_f_idle', 'spritesheets/hereos/knight/knight_f_idle.png', {
       frameWidth: 16,
       frameHeight: 28
@@ -35,6 +34,9 @@ export const assets = (ctx) => (
       frameWidth: 16,
       frameHeight: 28
     }),
+    //////////////////////////
+    // Load Ennemies assets //
+    //////////////////////////
     ctx.load.spritesheet('tiny_zombie', 'spritesheets/ennemies/monsters/tiny_zombie_idle.png',{
       frameWidth: 16,
       frameHeight: 16
@@ -50,5 +52,16 @@ export const assets = (ctx) => (
     ctx.load.spritesheet('imp_run', 'spritesheets/ennemies/monsters/imp_run.png', {
       frameWidth: 16,
       frameHeight: 16
-    })
+    }),
+    ////////////////////////
+    // Load weapon assets //
+    ////////////////////////
+    ctx.load.spritesheet('sword-basic', 'spritesheets/weapons/sword_basic.png', {
+      frameWidth: 10,
+      frameHeight: 23
+    }),
+    ///////////////////////////////
+    // Load GUI and other assets //
+    ///////////////////////////////
+    ctx.load.image('frame', 'spritesheets/gui/frame.png')
 )
