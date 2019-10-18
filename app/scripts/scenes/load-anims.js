@@ -2,7 +2,7 @@ export const anims = (ctx) => (
 	ctx.anims.create({
     key: 'knight_idle',
     frames: ctx.anims.generateFrameNumbers('knight_f_idle', {start: 0, end: 3}),
-    frameRate: 4,
+    frameRate: 8,
     repeat: -1
   }),
   ctx.anims.create({
@@ -15,7 +15,7 @@ export const anims = (ctx) => (
   ctx.anims.create({
     key: "lizard_idle",
     frames: ctx.anims.generateFrameNumbers('lizard_f_idle', {start:0, end: 3}),
-    frameRate: 4,
+    frameRate: 8,
     repeat: -1
   }),
   ctx.anims.create({
@@ -28,7 +28,7 @@ export const anims = (ctx) => (
   ctx.anims.create({
     key: "elf_idle",
     frames: ctx.anims.generateFrameNumbers('elf_f_idle', {start:0, end: 3}),
-    frameRate: 4,
+    frameRate: 8,
     repeat: -1
   }),
   ctx.anims.create({
@@ -41,7 +41,7 @@ export const anims = (ctx) => (
   ctx.anims.create({
     key: "wizzard_idle",
     frames: ctx.anims.generateFrameNumbers('wizzard_f_idle', {start:0, end: 3}),
-    frameRate: 4,
+    frameRate: 8,
     repeat: -1
   }),
   ctx.anims.create({
@@ -67,6 +67,19 @@ export const anims = (ctx) => (
   ctx.anims.create({
     key: 'tiny_zombie_walk',
     frames: ctx.anims.generateFrameNumbers('tiny_zombie_run', {start: 0, end: 3}),
+    frameRate: 4,
+    repeat: -1
+  }),
+
+  ctx.anims.create({
+    key: 'imp_idle',
+    frames: ctx.anims.generateFrameNumbers('imp', {start: 0, end: 3}),
+    frameRate: 4,
+    repeat: -1
+  }),
+  ctx.anims.create({
+    key: 'imp_walk',
+    frames: ctx.anims.generateFrameNumbers('imp_run', {start: 0, end: 3}),
     frameRate: 4,
     repeat: -1
   })

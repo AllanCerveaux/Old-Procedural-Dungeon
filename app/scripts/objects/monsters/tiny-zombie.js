@@ -1,6 +1,6 @@
 import Monster from './monster';
 
-export default class Orc extends Monster{
+export default class TinyZombie extends Monster{
   /**
   *  Orc monster class.
   *
@@ -16,7 +16,6 @@ export default class Orc extends Monster{
   constructor(scene, x, y, config) {
     super(scene, x, y, config);
     this.body.setSize(8,8);
-    this.body.offset.y = 15;
-    this.body.offset.x = 13;
+    this.body.offset.y = 7;
   }
 }

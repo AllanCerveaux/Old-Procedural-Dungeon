@@ -42,5 +42,13 @@ export const assets = (ctx) => (
     ctx.load.spritesheet('tiny_zombie_run', 'spritesheets/ennemies/monsters/tiny_zombie_run.png',{
       frameWidth: 16,
       frameHeight: 16
+    }),
+    ctx.load.spritesheet('imp', 'spritesheets/ennemies/monsters/imp_idle.png', {
+      frameWidth: 16,
+      frameHeight: 16
+    }),
+    ctx.load.spritesheet('imp_run', 'spritesheets/ennemies/monsters/imp_run.png', {
+      frameWidth: 16,
+      frameHeight: 16
     })
 )

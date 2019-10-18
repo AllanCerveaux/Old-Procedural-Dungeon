@@ -4,7 +4,8 @@ import LevelGenerator from '../plugins/level-generator';
 import TILES from '../objects/tiles-mapping';
 
 import Player from '../objects/player/player';
-import Orc from '../objects/monsters/orc';
+import TinyZombie from '../objects/monsters/tiny-zombie';
+import Imp from '../objects/monsters/imp';
 import SwordBasic from '../objects/weapons/sword-basic';
 
 export default class DungeonScene extends Phaser.Scene {
@@ -104,7 +105,7 @@ export default class DungeonScene extends Phaser.Scene {
     const x = map.tileToWorldX(playerRoom.centerX);
     const y = map.tileToWorldY(playerRoom.centerY);
 
-    this.player = new Player(this, x, y, {idle: 'lizard_idle', walk: 'lizard_run'});
+    this.player = new Player(this, x, y, {idle: 'wizzard_idle', walk: 'wizzard_run'});
     this.player.setDepth(10);
 
     this.weapon = new SwordBasic(this, this.player.x, this.player.y);
@@ -232,15 +233,21 @@ export default class DungeonScene extends Phaser.Scene {
 
         let spawnX = Phaser.Math.Between(room.left + 1, room.right - 1);
         let spawnY = Phaser.Math.Between(room.bottom - 1, room.top + 1);
-
-        let enemy = new Orc(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
-          key: 'orc-idle',
+        let imp = new Imp(this, map.tileToWorldX(spawnX) + 4, map.tileToWorldY(spawnY) + 9, {
+          key: 'imp',
+          anim: {
+            walk: 'imp_walk',
+            idle: 'imp_idle'
+          }
+        })
+        let enemy = new TinyZombie(this, map.tileToWorldX(spawnX)+9, map.tileToWorldY(spawnY)+4, {
+          key: 'tiny_zombie',
           anim: {
             walk: 'tiny_zombie_walk',
             idle: 'tiny_zombie_idle'
           }
         });
-        this.enemies.push(enemy);
+        this.enemies.push(enemy, imp);
       }
     });
     /* 
