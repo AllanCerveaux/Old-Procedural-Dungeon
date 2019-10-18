@@ -44,6 +44,7 @@ export default class SplashScreen extends Phaser.Scene {
     
     this.load.image('bg', 'title-map.png');
     this.load.image('tiles', ['tilesets/_DungeonTilesets.png', 'tilesets/_DungeonTilesets_n.png']);
+
     assets(this);
   }
 
