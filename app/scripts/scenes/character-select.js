@@ -1,4 +1,4 @@
-import Player from '../objects/player/player'
+import Player from '../objects/player/player';
 
 export default class CharacterSelect extends Phaser.Scene {
   /**
@@ -34,6 +34,7 @@ export default class CharacterSelect extends Phaser.Scene {
    *  @param {object} [data={}] - Initialization parameters.
    */
   create(/* data */) {
+    
     this.add.text(180, 150, 'Choose your character', {
       font: '30px Courier New',
       color: 'white',
@@ -47,31 +48,32 @@ export default class CharacterSelect extends Phaser.Scene {
         bottom: 40
       }
     });
+
     let knight_frame = this.add.image(100, 300, 'frame');
-    new Player(this, knight_frame.x, knight_frame.y, {idle: `knight_idle`, walk: `knight_walk`}).setScale(3);
+    new Player(this, knight_frame.x, knight_frame.y, {idle: 'knight_idle', walk: 'knight_walk'}).setScale(3);
     let elf_frame = this.add.image(300, 300, 'frame');
-    new Player(this, elf_frame.x, elf_frame.y, {idle: `elf_idle`, walk: `elf_walk`}).setScale(3);
+    new Player(this, elf_frame.x, elf_frame.y, {idle: 'elf_idle', walk: 'elf_walk'}).setScale(3);
     let lizard_frame = this.add.image(500, 300, 'frame');
-    new Player(this, lizard_frame.x, lizard_frame.y, {idle: `lizard_idle`, walk: `lizard_walk`}).setScale(3);
+    new Player(this, lizard_frame.x, lizard_frame.y, {idle: 'lizard_idle', walk: 'lizard_walk'}).setScale(3);
     let wizzard_frame = this.add.image(700, 300, 'frame');
-    new Player(this, wizzard_frame.x, wizzard_frame.y, {idle: `wizzard_idle`, walk: `wizzard_walk`}).setScale(3);
-    let scene = this.scene
+    new Player(this, wizzard_frame.x, wizzard_frame.y, {idle: 'wizzard_idle', walk: 'wizzard_walk'}).setScale(3);
+    let scene = this.scene;
 
-    knight_frame.setInteractive().on('pointerup', (pointer,x, y, gameObject) => {
-      scene.start('DungeonScene', {character: 'knight'})
-    })
+    knight_frame.setInteractive().on('pointerup', (/*pointer,x, y, gameObject*/) => {
+      scene.start('DungeonScene', {character: 'knight'});
+    });
 
-    elf_frame.setInteractive().on('pointerup', (pointer,x, y, gameObject) => {
-      scene.start('DungeonScene', {character: 'elf'})
-    })
+    elf_frame.setInteractive().on('pointerup', (/*pointer,x, y, gameObject*/) => {
+      scene.start('DungeonScene', {character: 'elf'});
+    });
    
-    lizard_frame.setInteractive().on('pointerup', (pointer,x, y, gameObject) => {
-      scene.start('DungeonScene', {character: 'lizard'})
-    })
+    lizard_frame.setInteractive().on('pointerup', (/*pointer,x, y, gameObject*/) => {
+      scene.start('DungeonScene', {character: 'lizard'});
+    });
     
-    wizzard_frame.setInteractive().on('pointerup', (pointer,x, y, gameObject) => {
-      scene.start('DungeonScene', {character: 'wizzard'})
-    })
+    wizzard_frame.setInteractive().on('pointerup', (/*pointer,x, y, gameObject*/) => {
+      scene.start('DungeonScene', {character: 'wizzard'});
+    });
   }
   /**
    *  Handles updates to game logic, physics and game objects.
